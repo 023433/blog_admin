@@ -4,11 +4,6 @@ import './index.css';
 import Routes from './Routes';
 import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(
-  <React.StrictMode>
-    <Routes />
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+ReactDOM.render(<Routes />, document.getElementById('root'));
 
 serviceWorker.unregister();

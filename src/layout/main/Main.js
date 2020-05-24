@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/styles';
-import { ThemeProvider } from "@material-ui/styles";
-import { createMuiTheme } from "@material-ui/core";
+import { makeStyles, ThemeProvider } from '@material-ui/styles';
+import { createMuiTheme, useMediaQuery } from "@material-ui/core";
 
 import Header from '../../components/header/Header'
 import Sidebar from '../../components/sidebar/Sidebar'
@@ -13,7 +12,7 @@ export default function Main(props) {
 
   let saveTheme = localStorage.getItem("theme")
 
-  if (saveTheme === 'undefined') {
+  if (saveTheme === null || saveTheme === 'undefined') {
     saveTheme = 'light';
   }
 
@@ -30,13 +29,73 @@ export default function Main(props) {
   }
 
   const lightTheme = createMuiTheme({
-
+    palette: {
+      logo: {
+        first: {
+          fill: "#0F61AA"
+        },
+        second: {
+          fill: "#2F89CC"
+        }
+      },
+      header: {
+        backgroundColor: "#133a70",
+        icon: {
+          color: "#ffffff"
+        },
+        badge: {
+          backgroundColor: "#01579b",
+          color: "#ffffff"
+        }
+      },
+      sidebar: {
+        backgroundColor: "#ffffff",
+        nav: {
+          color: "#424242"
+        }
+      }
+    }
   });
 
   const darkTheme = createMuiTheme({
-
+    palette: {
+      logo: {
+        first: {
+          fill: "#2E2E2E"
+        },
+        second: {
+          fill: "#606060"
+        }
+      },
+      header: {
+        backgroundColor: "#424242",
+        icon: {
+          color: "#bdbdbd"
+        },
+        badge: {
+          backgroundColor: "#616161",
+          color: "#e0e0e0"
+        }
+      },
+      sidebar: {
+        backgroundColor: "#616161",
+        nav: {
+          color: "#bdbdbd"
+        }
+      }
+    }
   });
+  
+  const useStyles = makeStyles((theme) => ({
+    
+  }));
 
+  const classes = useStyles();
+  const materialTheme = createMuiTheme();
+
+  const isDesktop = useMediaQuery(materialTheme.breakpoints.up('lg'), {
+    defaultMatches: true
+  });
 
   const [openSidebar, setOpenSidebar] = useState(false);
 
@@ -48,12 +107,9 @@ export default function Main(props) {
     setOpenSidebar(false);
   };
 
-  
-  const useStyles = makeStyles((theme) => ({
-    
-  }));
 
-  const classes = useStyles();
+  const shouldOpenSidebar = isDesktop ? true : openSidebar;
+
 
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
@@ -67,7 +123,8 @@ export default function Main(props) {
 
         <Sidebar
           onClose={handleSidebarClose}
-          open={openSidebar}
+          open={shouldOpenSidebar}
+          variant={isDesktop ? 'persistent' : 'temporary'}
         />
         
         <main className={classes.content}>

@@ -17,6 +17,24 @@ import LogoSamll from '../svg/logo/small';
 export default function Header(props) {
 
   const useStyles = makeStyles(theme => ({
+    logoFirst: {
+      fill: theme.palette.logo.first.fill
+    },
+    logoSecond: {
+      fill: theme.palette.logo.second.fill
+    },
+    header: {
+      backgroundColor: theme.palette.header.backgroundColor
+    },
+    icon: {
+      color: theme.palette.header.icon.color,
+    },
+    badge: {
+      "& .MuiBadge-badge":{
+        backgroundColor: theme.palette.header.badge.backgroundColor,
+        color: theme.palette.header.badge.color
+      }
+    },
     root: {
       boxShadow: 'none'
     },
@@ -45,27 +63,28 @@ export default function Header(props) {
 
   return (
     <AppBar>
-      <Toolbar>
+      <Toolbar className={classes.header} >
         <div style={{maxWidth:"45px", minHeight:"45px", minWidth:"45px", maxHeight:"45px"}}> 
           <RouterLink to="/">
             <LogoSamll 
-              logoFirst={classes.logoFirst} 
-              logoSecond={classes.logoSecond} />
+              first={classes.logoFirst} 
+              second={classes.logoSecond} />
           </RouterLink>
         </div>
         <div className={classes.flexGrow} />
         <Hidden mdDown>
-          <IconButton color="inherit">
+          <IconButton className={classes.icon}>
             <Badge
-              color="primary"
-              variant="dot"
+              className={classes.badge} 
+              badgeContent={100} 
+              max={99} 
             >
               <NotificationsIcon />
             </Badge>
           </IconButton>
 
           <IconButton
-            className={classes.signOutButton}
+            className={classes.icon}
             color="inherit"
             onClick={themeChange}
           >
@@ -73,7 +92,7 @@ export default function Header(props) {
           </IconButton>
 
           <IconButton
-            className={classes.signOutButton}
+            className={classes.icon}
             color="inherit"
           >
             <InputIcon />
