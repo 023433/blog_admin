@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 export default function Dashboard() {
@@ -12,13 +11,12 @@ export default function Dashboard() {
       color: theme.palette.content.color,
     },
   }));
-  
+
   const classes = useStyles();
 
   return (
     <div className={classes.root}>
       main content<br/>
-    
     </div>
   );
 }
