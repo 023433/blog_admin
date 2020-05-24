@@ -1,10 +1,24 @@
 import React from 'react';
+import PropTypes from 'prop-types';
+import makeStyles from '@material-ui/core/styles/makeStyles';
 
 export default function Dashboard() {
 
+  const useStyles = makeStyles(theme => ({
+    root: {
+      padding: theme.palette.content.padding,
+      backgroundColor: theme.palette.content.backgroundColor,
+      height: theme.palette.content.height,
+      color: theme.palette.content.color,
+    },
+  }));
+  
+  const classes = useStyles();
+
   return (
-    <div>
-      main content
+    <div className={classes.root}>
+      main content<br/>
+    
     </div>
   );
 }

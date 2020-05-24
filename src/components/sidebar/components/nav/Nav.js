@@ -13,7 +13,7 @@ export default function Nav(props) {
   const useStyles = makeStyles(theme => ({
     root: {
       paddingBottom: "0",
-      paddingTop: "0"
+      paddingTop: "0",
     },
     list: {
       display: 'flex',
@@ -66,7 +66,11 @@ export default function Nav(props) {
   const { title, pages, icon, expanded, onChange } = props;
 
   const handleClick = (event) => {
-    onChange(event, title);
+    if(expanded){
+      onChange(event, "");
+    }else{
+      onChange(event, title);
+    }
   };
   
   const CustomRouterLink = forwardRef((props, ref) => (
@@ -85,6 +89,7 @@ export default function Nav(props) {
         onClick={handleClick}
         key={title}
         className={classes.list}
+        selected={expanded}
       >
         <ListItemIcon className={classes.listIcon}>
           {icon}

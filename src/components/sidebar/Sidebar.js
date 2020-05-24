@@ -24,6 +24,9 @@ export default function Sidebar(props) {
         height: 'calc(100% - 64px)'
       },
     },
+    drawerBorder:{
+      border: "none"
+    },
     nav: {
       paddingTop: theme.spacing(1),
       paddingBottom: theme.spacing(1)
@@ -54,7 +57,12 @@ export default function Sidebar(props) {
   return (
     <Drawer
       anchor="left"
-      classes={{ paper: classes.drawer }}
+      classes={
+        { 
+          paper: classes.drawer, 
+          paperAnchorDockedLeft: classes.drawerBorder
+        }
+      }
       onClose={onClose}
       open={open}
       variant={variant}
