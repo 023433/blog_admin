@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import PropTypes from 'prop-types';
-import { Divider, Drawer } from '@material-ui/core';
+import { Divider, Drawer, Hidden, IconButton } from '@material-ui/core';
 
 import { PostAdd, Dashboard, People, Comment, LocalOffer } from '@material-ui/icons';
+import Brightness2RoundedIcon from '@material-ui/icons/Brightness2Rounded';
+import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded';
 
 import Nav from './components/nav/Nav'
 import Profile from './components/profile/Profile'
@@ -36,10 +38,20 @@ export default function Sidebar(props) {
     nav: {
       paddingTop: theme.spacing(1),
       paddingBottom: theme.spacing(1)
+    },
+    icon: {
+      color: theme.palette.sidebar.nav.color,
+    },
+    center: {
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      minHeight: 'fit-content',
+      marginTop: "20px"
     }
   }));
 
-  const { open, variant, onClose } = props;
+  const { open, variant, onClose, currentTheme, toggleTheme } = props;
 
   const classes = useStyles();
   
@@ -94,6 +106,17 @@ export default function Sidebar(props) {
     setExpanded(isExpanded ? panel : "");
   };
 
+  const [theme, setTheme] = React.useState(currentTheme);
+
+  const themeChange = () => {
+    toggleTheme()
+    if (theme === 'light') {
+      setTheme('dark');
+    } else {
+      setTheme('light');
+    }
+  }
+
   return (
     <Drawer
       anchor="left"
@@ -108,6 +131,7 @@ export default function Sidebar(props) {
       variant={variant}
     >
       <div className={classes.root}>
+        
         <Profile name="Admin" avatar="" bio="Admin"/>
         <Divider />
 
@@ -151,6 +175,17 @@ export default function Sidebar(props) {
         </div>
 
         <Divider />
+        <Hidden lgUp>
+          <div className={classes.center}>
+            <IconButton
+              className={classes.icon}
+              onClick={themeChange}
+              color="inherit"
+            >
+              {theme==="dark"? <WbSunnyRoundedIcon /> : <Brightness2RoundedIcon />}
+            </IconButton>
+          </div>
+        </Hidden>
       </div>
     </Drawer>
   );

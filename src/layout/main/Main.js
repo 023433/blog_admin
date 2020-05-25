@@ -151,6 +151,8 @@ export default function Main(props) {
           onSidebarOpen={handleSidebarOpen} />
 
           <Sidebar
+            toggleTheme={toggleTheme} 
+            currentTheme={saveTheme} 
             onClose={handleSidebarClose}
             open={shouldOpenSidebar}
             variant={isDesktop ? 'persistent' : 'temporary'}
