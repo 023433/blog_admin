@@ -140,7 +140,6 @@ export default function Main(props) {
 
   const shouldOpenSidebar = isDesktop ? true : openSidebar;
 
-
   return (
     <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
 
@@ -151,11 +150,11 @@ export default function Main(props) {
           currentTheme={saveTheme} 
           onSidebarOpen={handleSidebarOpen} />
 
-        <Sidebar
-          onClose={handleSidebarClose}
-          open={shouldOpenSidebar}
-          variant={isDesktop ? 'persistent' : 'temporary'}
-        />
+          <Sidebar
+            onClose={handleSidebarClose}
+            open={shouldOpenSidebar}
+            variant={isDesktop ? 'persistent' : 'temporary'}
+          />
         
         <main className={classes.content}>
           {children}

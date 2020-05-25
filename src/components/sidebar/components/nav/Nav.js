@@ -21,6 +21,8 @@ export default function Nav(props) {
       borderRadius: "6px",
       paddingLeft: "6px",
       paddingRight: "3px",
+      paddingTop: "6px",
+      paddingBottom: "6px"
     },
     listText: {
       display: 'flex',
@@ -72,6 +74,10 @@ export default function Nav(props) {
       onChange(event, title);
     }
   };
+
+  const handleClickSub = (event) => {
+      onChange(event, title);
+  };
   
   const CustomRouterLink = forwardRef((props, ref) => (
     <div
@@ -114,6 +120,7 @@ export default function Nav(props) {
           pages ? pages.map(page => (
             <ListItem
               button
+              onClick={handleClickSub}
               className={classes.item}
               key={page.title}
               component={CustomRouterLink}

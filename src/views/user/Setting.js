@@ -1,7 +1,7 @@
 import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
-export default function Post() {
+export default function Setting() {
   const useStyles = makeStyles(theme => ({
     root: {
       padding: theme.palette.content.padding,
@@ -15,7 +15,7 @@ export default function Post() {
 
   return (
     <div className={classes.root}>
-      Post content
+      Setting content
     </div>
   );
 }

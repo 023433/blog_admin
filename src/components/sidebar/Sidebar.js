@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import PropTypes from 'prop-types';
 import { Divider, Drawer } from '@material-ui/core';
@@ -7,7 +7,13 @@ import { PostAdd, Dashboard, People, Comment, LocalOffer } from '@material-ui/ic
 
 import Nav from './components/nav/Nav'
 import Profile from './components/profile/Profile'
+
+import MenuContext from "../../context/MenuContext";
+
+
 export default function Sidebar(props) {
+
+  const { onTab, handleOnTab } = useContext(MenuContext);
 
   const useStyles = makeStyles(theme => ({
     root: {
@@ -36,22 +42,56 @@ export default function Sidebar(props) {
   const { open, variant, onClose } = props;
 
   const classes = useStyles();
-
-  const pages = [
+  
+  const dashboard = [
     {
-      title: 'Dashboard',
+      title: '접속 통계',
       href: '/dashboard'
-    },
-    {
-      title: 'Users',
-      href: '/users'
     },
   ];
 
-  const [expanded, setExpanded] = React.useState(false);
+  const post = [
+    {
+      title: '글 관리',
+      href: '/post'
+    },
+    {
+      title: '카테고리 관리',
+      href: '/category'
+    },
+  ];
+
+  const comment = [
+    {
+      title: '댓글 관리',
+      href: '/comment'
+    },
+    {
+      title: '설정',
+      href: '/commentsetup'
+    },    
+  ];
+
+  const tag = [
+    {
+      title: '태그 관리',
+      href: '/tag'
+    },
+  ];
+
+  const user = [
+    {
+      title: '사용자 관리',
+      href: '/user'
+    },
+  ];
+  
+
+  const [expanded, setExpanded] = React.useState(onTab);
 
   const handleChange = (panel) => (event, isExpanded) => {
-    setExpanded(isExpanded ? panel : false);
+    handleOnTab(panel);
+    setExpanded(isExpanded ? panel : "");
   };
 
   return (
@@ -74,35 +114,35 @@ export default function Sidebar(props) {
         <div className={classes.nav}>
           <Nav 
             title="대시보드" 
-            pages={pages} 
+            pages={dashboard} 
             icon={<Dashboard/>} 
             expanded={expanded === '대시보드'} 
             onChange={handleChange('대시보드')} 
           />
           <Nav 
             title="포스트" 
-            pages={pages} 
+            pages={post} 
             icon={<PostAdd/>} 
             expanded={expanded === '포스트'} 
             onChange={handleChange('포스트')} 
           />
           <Nav 
             title="댓글" 
-            pages={pages} 
+            pages={comment} 
             icon={<Comment/>} 
             expanded={expanded === '댓글'} 
             onChange={handleChange('댓글')} 
           />
           <Nav 
             title="태그" 
-            pages={pages} 
+            pages={tag} 
             icon={<LocalOffer/>} 
             expanded={expanded === '태그'} 
             onChange={handleChange('태그')} 
           />
           <Nav 
             title="사용자" 
-            pages={pages} 
+            pages={user} 
             icon={<People/>} 
             expanded={expanded === '사용자'} 
             onChange={handleChange('사용자')} 
