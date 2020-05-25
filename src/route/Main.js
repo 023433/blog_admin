@@ -26,6 +26,7 @@ export default function Main() {
   return (
     <MenuContext.Provider value={{onTab: onTab, handleOnTab: handleOnTab}}>
       <Switch>
+        <Route path="/" component={DashboardView}/>
         <Route path="/dashboard" component={DashboardView}/>
         <Route path="/post" component={PostView}/>
         <Route path="/category" component={CategoryView}/>
