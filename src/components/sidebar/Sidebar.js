@@ -15,7 +15,7 @@ import MenuContext from "../../context/MenuContext";
 
 export default function Sidebar(props) {
 
-  const { onTab, handleOnTab } = useContext(MenuContext);
+  const { onTab, handleOnTab, theme, toggleTheme } = useContext(MenuContext);
 
   const useStyles = makeStyles(theme => ({
     root: {
@@ -51,7 +51,7 @@ export default function Sidebar(props) {
     }
   }));
 
-  const { open, variant, onClose, currentTheme, toggleTheme } = props;
+  const { open, variant, onClose } = props;
 
   const classes = useStyles();
   
@@ -105,17 +105,6 @@ export default function Sidebar(props) {
     handleOnTab(panel);
     setExpanded(isExpanded ? panel : "");
   };
-
-  const [theme, setTheme] = React.useState(currentTheme);
-
-  const themeChange = () => {
-    toggleTheme()
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
-  }
 
   return (
     <Drawer
@@ -179,7 +168,7 @@ export default function Sidebar(props) {
           <div className={classes.center}>
             <IconButton
               className={classes.icon}
-              onClick={themeChange}
+              onClick={toggleTheme}
               color="inherit"
             >
               {theme==="dark"? <WbSunnyRoundedIcon /> : <Brightness2RoundedIcon />}

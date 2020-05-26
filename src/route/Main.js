@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Switch } from 'react-router-dom';
 import MainLayout from '../layout/main/Main';
 
+import MainView from '../views/Main';
 import DashboardView from '../views/Dashboard';
 import PostView from '../views/post/Post';
 import CategoryView from '../views/post/Category';
@@ -19,14 +20,41 @@ import MenuContext from "../context/MenuContext"
 export default function Main() {
   const [onTab, setOnTab] = useState("");
 
+  let saveTheme = localStorage.getItem("theme")
+
+  if (saveTheme === null || saveTheme === 'undefined') {
+    saveTheme = 'light';
+  }
+
+  const [theme, setTheme] = useState(saveTheme);
+
+  const toggleTheme = () => {
+    if (theme === 'light') {
+      setTheme('dark');
+      localStorage.setItem('theme', 'dark');
+    } else {
+      setTheme('light');
+      localStorage.setItem('theme', 'light');
+    }
+  }
+
+
   const handleOnTab = (tab) => {
     setOnTab(tab);
   };
 
   return (
-    <MenuContext.Provider value={{onTab: onTab, handleOnTab: handleOnTab}}>
+    <MenuContext.Provider 
+      value={
+        {
+          onTab: onTab, 
+          handleOnTab: handleOnTab,
+          theme: saveTheme,
+          toggleTheme: toggleTheme
+        }
+      }>
       <Switch>
-        <Route path="/" component={DashboardView}/>
+        <Route path="/" component={MainView}/>
         <Route path="/dashboard" component={DashboardView}/>
         <Route path="/post" component={PostView}/>
         <Route path="/category" component={CategoryView}/>

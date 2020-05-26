@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { ThemeProvider } from '@material-ui/styles';
@@ -6,28 +6,11 @@ import { createMuiTheme, useMediaQuery } from "@material-ui/core";
 
 import Header from '../../components/header/Header'
 import Sidebar from '../../components/sidebar/Sidebar'
+import MenuContext from "../../context/MenuContext";
 
 export default function Main(props) {
-
+  const { theme } = useContext(MenuContext);
   const { children } = props;
-
-  let saveTheme = localStorage.getItem("theme")
-
-  if (saveTheme === null || saveTheme === 'undefined') {
-    saveTheme = 'light';
-  }
-
-  const [theme, setTheme] = useState(saveTheme);
-
-  const toggleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      setTheme('light');
-      localStorage.setItem('theme', 'light');
-    }
-  }
 
   const lightTheme = createMuiTheme({
     palette: {
@@ -145,14 +128,9 @@ export default function Main(props) {
 
       <div className={classes.root}>
 
-        <Header 
-          toggleTheme={toggleTheme} 
-          currentTheme={saveTheme} 
-          onSidebarOpen={handleSidebarOpen} />
+        <Header onSidebarOpen={handleSidebarOpen} />
 
           <Sidebar
-            toggleTheme={toggleTheme} 
-            currentTheme={saveTheme} 
             onClose={handleSidebarClose}
             open={shouldOpenSidebar}
             variant={isDesktop ? 'persistent' : 'temporary'}

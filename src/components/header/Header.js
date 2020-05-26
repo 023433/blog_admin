@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import PropTypes from 'prop-types';
 
@@ -13,6 +13,7 @@ import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded';
 
 import LogoSamll from '../svg/logo/small';
 
+import MenuContext from "../../context/MenuContext";
 
 export default function Header(props) {
 
@@ -46,20 +47,10 @@ export default function Header(props) {
     }
   }));
 
-  const { currentTheme, toggleTheme, onSidebarOpen } = props;
-
-  const [theme, setTheme] = React.useState(currentTheme);
+  const { onSidebarOpen } = props;
+  const { theme, toggleTheme } = useContext(MenuContext);
 
   const classes = useStyles();
-
-  const themeChange = () => {
-    toggleTheme()
-    if (theme === 'light') {
-      setTheme('dark');
-    } else {
-      setTheme('light');
-    }
-  }
 
   return (
     <AppBar>
@@ -86,7 +77,7 @@ export default function Header(props) {
           <IconButton
             className={classes.icon}
             color="inherit"
-            onClick={themeChange}
+            onClick={toggleTheme}
           >
             {theme==="dark"? <WbSunnyRoundedIcon /> : <Brightness2RoundedIcon />}
           </IconButton>
@@ -112,7 +103,5 @@ export default function Header(props) {
 }
 
 Header.propTypes = {
-  currentTheme: PropTypes.string.isRequired, 
-  toggleTheme: PropTypes.func.isRequired, 
   onSidebarOpen: PropTypes.func.isRequired
 };
