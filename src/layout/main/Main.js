@@ -43,6 +43,15 @@ export default function Main(props) {
         nav: {
           color: "#424242"
         }
+      },
+      dashboard: {
+        card: {
+          backgroundColor: "#ffffff",
+          color: "#424242",
+          icon: {
+            color: "#ffffff",
+          }
+        }
       }
     }
   });
@@ -64,7 +73,7 @@ export default function Main(props) {
         }
       },
       header: {
-        backgroundColor: "#424242",
+        backgroundColor: "#212121",
         icon: {
           color: "#bdbdbd"
         },
@@ -74,9 +83,18 @@ export default function Main(props) {
         }
       },
       sidebar: {
-        backgroundColor: "#616161",
+        backgroundColor: "#212121",
         nav: {
           color: "#bdbdbd"
+        }
+      },
+      dashboard: {
+        card: {
+          backgroundColor: "#616161",
+          color: "#bdbdbd",
+          icon: {
+            color: "#616161",
+          }
         }
       }
     }
