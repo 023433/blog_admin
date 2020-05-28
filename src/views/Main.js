@@ -126,7 +126,7 @@ export default function Main() {
             <CardContent>
               <div className={classes.content} >
                 <Typography className={classes.name} variant="h4">
-                  ON
+                  STARTUP
                 </Typography>
                 <Avatar aria-label="recipe" className={classes.avater}>
                   <FlipCameraAndroidIcon/>
