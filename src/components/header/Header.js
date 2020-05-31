@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import PropTypes from 'prop-types';
+import { useHistory } from 'react-router-dom';
 
 import { Link as RouterLink } from 'react-router-dom';
 import { AppBar, Toolbar, Badge, Hidden, IconButton } from '@material-ui/core';
@@ -14,6 +15,9 @@ import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded';
 import LogoSamll from '../svg/logo/small';
 
 import MenuContext from "../../context/MenuContext";
+import { Cookies } from '../../service/ApiService';
+import { Cookie } from '../../service/api/enum/Cookie';
+
 
 export default function Header(props) {
 
@@ -51,7 +55,14 @@ export default function Header(props) {
   const { theme, toggleTheme } = useContext(MenuContext);
 
   const classes = useStyles();
+  const history = useHistory();
 
+  const signout = () => {
+    Cookies.remove(Cookie.STR_TOKEN);
+    history.push("/signin");
+    window.location.reload()
+  }
+  
   return (
     <AppBar>
       <Toolbar className={classes.header} >
@@ -85,6 +96,7 @@ export default function Header(props) {
           <IconButton
             className={classes.icon}
             color="inherit"
+            onClick={signout}
           >
             <InputIcon />
           </IconButton>

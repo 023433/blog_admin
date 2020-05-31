@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Switch } from 'react-router-dom';
 import MainLayout from '../layout/main/Main';
+import { ApiAsync, Axios, Backdrop } from '../service/ApiService';
+import { useHistory } from 'react-router-dom';
 
 import MainView from '../views/Main';
 import DashboardView from '../views/Dashboard';
@@ -38,10 +40,43 @@ export default function Main() {
     }
   }
 
-
   const handleOnTab = (tab) => {
     setOnTab(tab);
   };
+
+
+  const history = useHistory();
+
+  // eslint-disable-next-line
+  const [state, dispatch] = ApiAsync(authValidate, []);
+  const { isLoading, data } = state;
+
+  async function authValidate() {
+    const response = await Axios.get(
+      '/auth/validate/admin',
+    ).catch(error => {
+      console.log(error);
+    });
+
+    if(response === undefined){
+      history.push("/signin");
+      return;
+    }
+
+    if(response.status === 200){
+      return response;
+    }
+  }
+
+  if(isLoading){
+    return (<Backdrop/>)
+  }
+
+  if(data === null){
+    history.push("/signin");
+    return;
+  }
+  
 
   return (
     <MenuContext.Provider 
