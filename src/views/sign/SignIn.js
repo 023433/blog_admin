@@ -1,5 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { Axios, qs, Cookies } from '../../service/ApiService';
+import { Cookie } from '../../service/api/enum/Cookie';
 
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -44,9 +46,26 @@ export default function SignIn() {
   const history = useHistory();
 
   const login = async () => {
+    const userId = document.getElementById('email').value;
+    const userPwd = document.getElementById('password').value;
 
-    handleClickOpen();
+    const response = await Axios.post(
+      '/auth/login',
+      qs.stringify({ userId, userPwd })
+    ).catch(error => {
+      console.log(error);
+    });
 
+    if(response === undefined){
+      handleClickOpen();
+      return;
+    }
+    
+    if(response.status === 200){
+      Cookies.set(Cookie.STR_TOKEN, response.data);
+      history.push("/");
+      history.go(0);
+    }
   }
 
   const [open, setOpen] = React.useState(false);
