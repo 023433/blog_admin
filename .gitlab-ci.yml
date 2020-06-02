@@ -12,10 +12,10 @@ deploy:
   script:
     - npm update
     - npm run-script build
-    - echo "$DAEKGIL_SSH_KEY" > daekgil.ppk
-    - chmod 400 daekgil.ppk
-    - ssh daekgil@devj.io -T -p $SSH_PORT -o StrictHostKeyChecking=no -i daekgil.ppk 
-      "rm -rf /home/daekgil/nginx/html/admin/*"
-    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -i daekgil.ppk -r build/* daekgil@devj.io:/home/daekgil/nginx/html/admin
+    - echo "$DEVJ_SSH_KEY" > devj.ppk
+    - chmod 400 devj.ppk
+    - ssh devj@devj.io -T -p $SSH_PORT -o StrictHostKeyChecking=no -i devj.ppk 
+      "rm -rf /home/devj/nginx/html/admin/*"
+    - scp -P $SSH_PORT -o StrictHostKeyChecking=no -i devj.ppk -r build/* devj@devj.io:/home/devj/nginx/html/admin
   tags:
    - Docker
