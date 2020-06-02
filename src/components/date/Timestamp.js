@@ -6,14 +6,6 @@ export default function Timestamp(props) {
   const date = props.dateTime;
   let createDate = new Date(date);
 
-  if(navigator.platform.indexOf('Mac') > -1){
-    createDate = new Date(date + "+09:00");
-  }
-
-  if(navigator.platform.indexOf('iPhone') > -1){
-    createDate = new Date(date + "+09:00");
-  }
-
   function getResultDate(createDate){
 
     const year = createDate.getFullYear()

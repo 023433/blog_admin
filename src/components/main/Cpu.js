@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { ApiAsync, Axios, Backdrop } from '../../service/ApiService';
+import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import Card from '@material-ui/core/Card';
@@ -9,7 +8,7 @@ import DesktopMacIcon from '@material-ui/icons/DesktopMac';
 import Avatar from '@material-ui/core/Avatar';
 import LinearProgress from '@material-ui/core/LinearProgress';
 
-export default function Cpu() {
+export default function Cpu(props) {
 
   const useStyles = makeStyles(theme => ({
     content: {
@@ -36,37 +35,7 @@ export default function Cpu() {
 
   const classes = useStyles();
   
-  useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch();
-    }, 3000);
-    return () => clearInterval(interval);
-  });
-
-  const [state, dispatch] = ApiAsync(() => getData(), []);
-  const { isLoading, data } = state;
-
-  async function getData() {
-    const response = await Axios.get(
-      '/actuator/metrics/system.cpu.usage'
-    ).catch(error => {
-      console.log(error);
-    });
-
-    if(response === undefined){
-      return;
-    }
-    
-    if(response.status === 200){
-      return response;
-    }
-  }
-
-  if(isLoading){
-    return (<Backdrop/>)
-  }
-
-  let percent = parseInt(data.measurements[0].value * 100);
+  let percent = parseInt(props.percent);
 
   return (
     <Card elevation={0} className={classes.card}>

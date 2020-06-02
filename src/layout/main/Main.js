@@ -7,6 +7,7 @@ import { createMuiTheme, useMediaQuery } from "@material-ui/core";
 import Header from '../../components/header/Header'
 import Sidebar from '../../components/sidebar/Sidebar'
 import MenuContext from "../../context/MenuContext";
+import { PropertyMenu } from '../../context/PropertyMenu';
 
 export default function Main(props) {
   const { theme } = useContext(MenuContext);
@@ -142,7 +143,7 @@ export default function Main(props) {
   const shouldOpenSidebar = isDesktop ? true : openSidebar;
 
   return (
-    <ThemeProvider theme={theme === 'light' ? lightTheme : darkTheme}>
+    <ThemeProvider theme={theme === PropertyMenu.Light ? lightTheme : darkTheme}>
 
       <div className={classes.root}>
 

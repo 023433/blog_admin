@@ -18,6 +18,7 @@ import PropTypes from 'prop-types';
 
 import RouteWithLayout from '../components/route/RouteWithLayout';
 import MenuContext from "../context/MenuContext"
+import { PropertyMenu } from '../context/PropertyMenu';
 
 export default function Main() {
   const [onTab, setOnTab] = useState("");
@@ -25,18 +26,18 @@ export default function Main() {
   let saveTheme = localStorage.getItem("theme")
 
   if (saveTheme === null || saveTheme === 'undefined') {
-    saveTheme = 'light';
+    saveTheme = PropertyMenu.Light;
   }
 
   const [theme, setTheme] = useState(saveTheme);
 
   const toggleTheme = () => {
-    if (theme === 'light') {
-      setTheme('dark');
-      localStorage.setItem('theme', 'dark');
+    if (theme === PropertyMenu.Light) {
+      setTheme(PropertyMenu.Dark);
+      localStorage.setItem('theme', PropertyMenu.Dark);
     } else {
-      setTheme('light');
-      localStorage.setItem('theme', 'light');
+      setTheme(PropertyMenu.Light);
+      localStorage.setItem('theme', PropertyMenu.Light);
     }
   }
 

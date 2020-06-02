@@ -1,5 +1,4 @@
-import React, { useEffect } from 'react';
-import { ApiAsync, Axios, Backdrop } from '../../service/ApiService';
+import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import Card from '@material-ui/core/Card';
@@ -36,57 +35,9 @@ export default function Memory(props) {
 
   const classes = useStyles();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch();
-    }, 3000);
-    return () => clearInterval(interval);
-  });
-
-  const [total, setTotal] = React.useState(0);
-  const [state, dispatch] = ApiAsync(() => getData(), []);
-  const { isLoading, data } = state;
-
-  async function getData() {
-
-    if(total === 0){
-      const response = await Axios.get(
-        '/actuator/metrics/os.memory.total'
-      ).catch(error => {
-        console.log(error);
-      });
-
-      if(response === undefined){
-        return;
-      }
-
-      if(response.status === 200){
-        setTotal(Math.round(response.data.measurements[0].value))
-      }
-    }
-
-    const response = await Axios.get(
-      '/actuator/metrics/os.memory.free'
-    ).catch(error => {
-      console.log(error);
-    });
-
-    if(response === undefined){
-      return;
-    }
-    
-    if(response.status === 200){
-      return response;
-    }
-  }
-
-  if(isLoading){
-    return (<Backdrop/>)
-  }
-
-  const free = parseInt(data.measurements[0].value);
-  let percent = Math.round((total - free) / total * 100);
-
+  let percent = props.percent;
+  let total = props.total;
+  
   return (
     <Card elevation={0} className={classes.card}>
       <CardContent>

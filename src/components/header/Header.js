@@ -15,6 +15,7 @@ import WbSunnyRoundedIcon from '@material-ui/icons/WbSunnyRounded';
 import LogoSamll from '../svg/logo/small';
 
 import MenuContext from "../../context/MenuContext";
+import { PropertyMenu } from '../../context/PropertyMenu';
 import { Cookies } from '../../service/ApiService';
 import { Cookie } from '../../service/api/enum/Cookie';
 
@@ -90,7 +91,7 @@ export default function Header(props) {
             color="inherit"
             onClick={toggleTheme}
           >
-            {theme==="dark"? <WbSunnyRoundedIcon /> : <Brightness2RoundedIcon />}
+            {theme===PropertyMenu.Dark? <WbSunnyRoundedIcon /> : <Brightness2RoundedIcon />}
           </IconButton>
 
           <IconButton
