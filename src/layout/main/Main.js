@@ -109,15 +109,16 @@ export default function Main(props) {
       paddingTop: 56,
       paddingLeft: 0,
       [theme.breakpoints.up('sm')]: {
-        paddingTop: 64
+        paddingTop: 64,
+        height: "calc(100vh - 84px)",
       },
       [theme.breakpoints.up('lg')]: {
-        paddingLeft: 240
+        paddingLeft: 240,
+        height: "calc(100vh - 86px)",
       },
     },
     content: {
-      height: "calc(100vh - 56px)",
-      [theme.breakpoints.up('sm')]: {
+      [theme.breakpoints.up('md')]: {
         height: "calc(100vh - 64px)",
       },
     }

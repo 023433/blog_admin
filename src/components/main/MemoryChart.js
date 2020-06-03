@@ -26,6 +26,7 @@ export default function MemoryChart(props) {
     },
     chart: {
       display: "flex",
+      minHeight: "300px",
       marginTop: theme.spacing(1),
       color: theme.palette.dashboard.card.icon.color,
     },
@@ -82,7 +83,7 @@ export default function MemoryChart(props) {
             options={{
               legend: 'none',
               vAxis: { minValue: 0, maxValue: 100 },
-              chartArea: { width: '90%', height: '90%' },
+              chartArea: { width: '85%', height: '95%' },
               backgroundColor: bgColor,
             }}
             rootProps={{ 'data-testid': '1' }}
