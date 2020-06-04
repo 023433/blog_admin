@@ -47,6 +47,7 @@ export default function Main() {
 
   // eslint-disable-next-line
   const [stateDatabase, dispatchDatabase] = ApiAsync(() => getDataDatabase(), []);
+  // eslint-disable-next-line
   const [stateStorage, dispatchStorage] = ApiAsync(() => getDataStorage(), []);
 
     const dataCpu = stateCpu.data;
