@@ -11,6 +11,8 @@ import Startup from '../components/main/Startup';
 
 import CpuChart from '../components/main/CpuChart';
 import MemoryChart from '../components/main/MemoryChart';
+import Database from '../components/main/Database';
+import Storage from '../components/main/Storage';
 
 
 export default function Main() {
@@ -21,7 +23,11 @@ export default function Main() {
       backgroundColor: theme.palette.content.backgroundColor,
       height: theme.palette.content.height,
       color: theme.palette.content.color,
+      minHeight: theme.palette.content.minHeight,
     },
+    content: {
+      marginTop: theme.spacing(1),
+    }
   }));
 
 
@@ -39,7 +45,11 @@ export default function Main() {
   const [stateCpu, dispatchCpu] = ApiAsync(() => getDataCpu(), []);
   const [stateMemory, dispatchMemory] = ApiAsync(() => getDataMemory(), []);
 
-  const dataCpu = stateCpu.data;
+  // eslint-disable-next-line
+  const [stateDatabase, dispatchDatabase] = ApiAsync(() => getDataDatabase(), []);
+  const [stateStorage, dispatchStorage] = ApiAsync(() => getDataStorage(), []);
+
+    const dataCpu = stateCpu.data;
   const isLoadingCpu = stateCpu.isLoading;
 
   async function getDataCpu() {
@@ -108,9 +118,63 @@ export default function Main() {
   const free = parseInt(dataMemory.measurements[0].value);
   let percentMemory = Math.round((total - free) / total * 100);
 
+
+  const dataDatabase = stateDatabase.data;
+  const isLoadingDatabase = stateDatabase.isLoading;
+
+  async function getDataDatabase() {
+    const response = await Axios.get(
+      '/actuator/sysinfo/db'
+    ).catch(error => {
+      console.log(error);
+    });
+
+    if(response === undefined){
+      return;
+    }
+
+    if(response.status === 200){
+      return response;
+    }
+  }
+
+  if(isLoadingDatabase){
+    return (<Backdrop/>)
+  }
+
+  const dataStorage = stateStorage.data;
+  const isLoadingStorage = stateStorage.isLoading;
+
+  async function getDataStorage() {
+
+    const params = new URLSearchParams();
+    params.append('dir', "/home/devj/nginx/html");
+    params.append('dir', "/upload/post");
+    params.append('dir', "/upload/temp");
+
+    const response = await Axios.get(
+      '/actuator/sysinfo/storage',
+      {'params': params},      
+    ).catch(error => {
+      console.log(error);
+    });
+
+    if(response === undefined){
+      return;
+    }
+
+    if(response.status === 200){
+      return response;
+    }
+  }
+
+  if(isLoadingStorage){
+    return (<Backdrop/>)
+  }
+
   return (
-    <div className={classes.root}>     
-      <Grid container spacing={1} >
+    <div className={classes.root}>
+      <Grid container spacing={2} >
         <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
           <Cpu percent={percentCpu}/>
         </Grid>
@@ -129,13 +193,23 @@ export default function Main() {
 
       </Grid>
 
-      <Grid container spacing={1} >
+      <Grid container spacing={2} className={classes.content}>
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
           <CpuChart percent={percentCpu}/>
         </Grid>
 
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
           <MemoryChart percent={percentMemory} total={total}/>
+        </Grid>
+      </Grid>
+
+      <Grid container spacing={2} className={classes.content}>
+        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+          <Database data={dataDatabase}/>
+        </Grid>
+
+        <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+          <Storage data={dataStorage}/>
         </Grid>
       </Grid>
 

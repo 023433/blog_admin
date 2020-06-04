@@ -19,7 +19,11 @@ export default function Main(props) {
         padding: "20px 30px 20px 30px",
         backgroundColor: "rgb(242, 246, 252)",
         color: "#424242",
-        height: "calc(100% - 40px)"
+        height: "calc(100% - 40px)",
+        badge: {
+          backgroundColor: "#01579b",
+          color: "#ffffff"
+        }
       },
       logo: {
         first: {
@@ -63,7 +67,11 @@ export default function Main(props) {
         padding: "20px 30px 20px 30px",
         backgroundColor: "rgb(21, 21, 21)",
         color: "#bdbdbd",
-        height: "calc(100% - 40px)"
+        height: "calc(100% - 40px)",
+        badge: {
+          backgroundColor: "#2E2E2E",
+          color: "#e0e0e0"
+        }
       },
       logo: {
         first: {
@@ -106,21 +114,17 @@ export default function Main(props) {
 
   const useStyles = makeStyles(theme => ({
     root: {
-      paddingTop: 56,
       paddingLeft: 0,
       [theme.breakpoints.up('sm')]: {
         paddingTop: 64,
-        height: "calc(100vh - 84px)",
       },
       [theme.breakpoints.up('lg')]: {
         paddingLeft: 240,
-        height: "calc(100vh - 86px)",
       },
     },
     content: {
-      [theme.breakpoints.up('md')]: {
-        height: "calc(100vh - 64px)",
-      },
+      height: "100%",
+      minHeight: "calc(100vh - 64px)",
     }
   }));
 
@@ -146,15 +150,17 @@ export default function Main(props) {
   return (
     <ThemeProvider theme={theme === PropertyMenu.Light ? lightTheme : darkTheme}>
 
-      <div className={classes.root}>
+      <div 
+        className={classes.root} 
+        style={theme === PropertyMenu.Light ? {backgroundColor: "rgb(242, 246, 252)"} :  {backgroundColor: "rgb(21, 21, 21)"}}>
 
         <Header onSidebarOpen={handleSidebarOpen} />
 
-          <Sidebar
-            onClose={handleSidebarClose}
-            open={shouldOpenSidebar}
-            variant={isDesktop ? 'persistent' : 'temporary'}
-          />
+        <Sidebar
+          onClose={handleSidebarClose}
+          open={shouldOpenSidebar}
+          variant={isDesktop ? 'persistent' : 'temporary'}
+        />
         
         <main className={classes.content}>
           {children}
