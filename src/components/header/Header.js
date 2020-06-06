@@ -16,7 +16,7 @@ import LogoSamll from '../svg/logo/small';
 
 import MenuContext from "../../context/MenuContext";
 import { PropertyMenu } from '../../context/PropertyMenu';
-import { Cookies } from '../../service/ApiService';
+import { Cookies } from '../../service/api/ApiService';
 import { Cookie } from '../../service/api/enum/Cookie';
 
 

@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
-import { ApiAsync, Axios, Backdrop } from '../../service/ApiService';
+import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -37,37 +37,7 @@ export default function Startup(props) {
 
   const classes = useStyles();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch();
-    }, 36000);
-    return () => clearInterval(interval);
-  });
-
-  const [state, dispatch] = ApiAsync(() => getData(), []);
-  const { isLoading, data } = state;
-
-  async function getData() {
-    const response = await Axios.get(
-      '/actuator/metrics/os.uptime'
-    ).catch(error => {
-      console.log(error);
-    });
-
-    if(response === undefined){
-      return;
-    }
-    
-    if(response.status === 200){
-      return response;
-    }
-  }
-
-  if(isLoading){
-    return (<Backdrop/>)
-  }
-  
-  const date = data.measurements[0].value;
+  const date = props.dateTime;
 
   var now = new Date().getTime();
   
@@ -97,3 +67,7 @@ export default function Startup(props) {
     </Card>
   );
 }
+
+Startup.propTypes = {
+  dateTime: PropTypes.number.isRequired
+};

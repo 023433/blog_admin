@@ -1,6 +1,6 @@
 import Axios from './AxiosApi';
-import Backdrop from '../components/loading/Backdrop';
-import ApiAsync from './api/reducer/ApiAsync';
+import Backdrop from '../../components/loading/Backdrop';
+import ApiAsync from './reducer/ApiAsync';
 import Cookies from 'js-cookie';
 import qs from "qs";
 

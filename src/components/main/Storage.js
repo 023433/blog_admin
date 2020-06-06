@@ -1,5 +1,6 @@
 import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import { getResultSize } from '../../service/views/ServiceMain';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -59,18 +60,6 @@ export default function Storage(props) {
 
   const classes = useStyles();
 
-
-  const getResultSize = (bytes) => {
-    var s = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
-    var e = Math.floor(Math.log(bytes)/Math.log(1024));
-  
-    if(e === "-Infinity") {
-      return "0 " + s[0]; 
-    } else {
-      return (bytes/Math.pow(1024, Math.floor(e))).toFixed(0) + " " + s[e];
-    }
-  }
-
   return (
     <Card elevation={0} className={classes.card}>
       <CardContent>
@@ -89,7 +78,6 @@ export default function Storage(props) {
           >
             {
               Object.entries(props.data).map(([key,value])=>{
-                console.log(key,value);
                 return (
                   <ListItem button key={key} >
                     <Typography className={classes.typography} variant="h6">

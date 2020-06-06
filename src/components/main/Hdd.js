@@ -1,6 +1,7 @@
-import React, { useEffect } from 'react';
-import { ApiAsync, Axios, Backdrop } from '../../service/ApiService';
+import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import PropTypes from 'prop-types';
+import { getResultSize } from '../../service/views/ServiceMain';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -36,53 +37,8 @@ export default function Hdd(props) {
 
   const classes = useStyles();
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      dispatch();
-    }, 10000);
-    return () => clearInterval(interval);
-  });
-
-  const [state, dispatch] = ApiAsync(() => getData(), []);
-  const { isLoading, data } = state;
-
-  async function getData() {
-    const response = await Axios.get(
-      '/actuator/health'
-    ).catch(error => {
-      console.log(error);
-    });
-
-    if(response === undefined){
-      return;
-    }
-    
-    if(response.status === 200){
-      return response;
-    }
-  }
-
-  if(isLoading){
-    return (<Backdrop/>)
-  }
-
-  const disk = data.components.diskSpace.details;
-
-  const total = disk.total;
-  const free = disk.free;
-
-  const getResultSize = (size) => {
-    var bytes = parseInt(total);
- 
-    var s = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
-    var e = Math.floor(Math.log(bytes)/Math.log(1024));
-  
-    if(e === "-Infinity") {
-      return "0 " + s[0]; 
-    } else {
-      return (bytes/Math.pow(1024, Math.floor(e))).toFixed(0) + " " + s[e];
-    }
-  }
+  const total = props.total;
+  const free = props.free;
 
   let percent = parseInt((total - free) / total * 100);
 
@@ -110,3 +66,8 @@ export default function Hdd(props) {
     </Card>
   );
 }
+
+Hdd.propTypes = {
+  total: PropTypes.number.isRequired,
+  free: PropTypes.number.isRequired
+};

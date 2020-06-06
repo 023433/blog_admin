@@ -1,8 +1,18 @@
 import React, { useEffect } from 'react';
-import { ApiAsync, Axios, Backdrop } from '../service/ApiService';
+import { ApiAsync, Backdrop } from '../service/api/ApiService';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import Grid from '@material-ui/core/Grid';
+
+import { 
+  getDataCpu, 
+  getDataDatabase, 
+  getDataStorage, 
+  getDataTotalMemory, 
+  getDataFreeMemory, 
+  getDataStartup, 
+  getHddData 
+} from '../service/views/ServiceMain';
 
 import Cpu from '../components/main/Cpu';
 import Hdd from '../components/main/Hdd';
@@ -36,142 +46,62 @@ export default function Main() {
   useEffect(() => {
     const interval = setInterval(() => {
       dispatchCpu();
-      dispatchMemory();
+      dispatchFreeMemory();
     }, 5000);
     return () => clearInterval(interval);
   });
 
-  const [total, setTotal] = React.useState(0);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatchHdd();
+    }, 10000);
+    return () => clearInterval(interval);
+  });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      dispatchStartup();
+    }, 36000);
+    return () => clearInterval(interval);
+  });
+
+  const [stateStartup, dispatchStartup] = ApiAsync(() => getDataStartup(), []);
   const [stateCpu, dispatchCpu] = ApiAsync(() => getDataCpu(), []);
-  const [stateMemory, dispatchMemory] = ApiAsync(() => getDataMemory(), []);
+  const [stateTotalMemory] = ApiAsync(() => getDataTotalMemory(), []);
+  const [stateFreeMemory, dispatchFreeMemory] = ApiAsync(() => getDataFreeMemory(), []);
+  const [stateHdd, dispatchHdd] = ApiAsync(() => getHddData(), []);
+  const [stateDatabase] = ApiAsync(() => getDataDatabase(), []);
+  const [stateStorage] = ApiAsync(() => getDataStorage(), []);
 
-  // eslint-disable-next-line
-  const [stateDatabase, dispatchDatabase] = ApiAsync(() => getDataDatabase(), []);
-  // eslint-disable-next-line
-  const [stateStorage, dispatchStorage] = ApiAsync(() => getDataStorage(), []);
+  if(stateCpu.isLoading
+      || stateTotalMemory.isLoading
+      || stateFreeMemory.isLoading
+      || stateDatabase.isLoading
+      || stateStorage.isLoading
+      || stateStartup.isLoading
+      || stateHdd.isLoading){
 
-    const dataCpu = stateCpu.data;
-  const isLoadingCpu = stateCpu.isLoading;
-
-  async function getDataCpu() {
-    const response = await Axios.get(
-      '/actuator/metrics/system.cpu.usage'
-    ).catch(error => {
-      console.log(error);
-    });
-
-    if(response === undefined){
-      return;
-    }
-
-    if(response.status === 200){
-      return response;
-    }
-  }
-
-  if(isLoadingCpu){
     return (<Backdrop/>)
   }
 
+  const dataCpu = stateCpu.data;
   const percentCpu = parseInt(dataCpu.measurements[0].value * 100);
 
-  const isLoadingMemory = stateMemory.isLoading;
-  const dataMemory = stateMemory.data;
+  const dataFreeMemory = stateFreeMemory.data;
+  const dataTotalMemory = stateTotalMemory.data;
 
-  async function getDataMemory() {
-
-    if(total === 0){
-      const response = await Axios.get(
-        '/actuator/metrics/os.memory.total'
-      ).catch(error => {
-        console.log(error);
-      });
-
-      if(response === undefined){
-        return;
-      }
-
-      if(response.status === 200){
-        setTotal(Math.round(response.data.measurements[0].value))
-
-      }
-    }
-
-    const response = await Axios.get(
-      '/actuator/metrics/os.memory.free'
-    ).catch(error => {
-      console.log(error);
-    });
-
-    if(response === undefined){
-      return;
-    }
-    
-    if(response.status === 200){
-      return response;
-    }
-  }
-
-  if(isLoadingMemory){
-    return (<Backdrop/>)
-  }
-
-  const free = parseInt(dataMemory.measurements[0].value);
-  let percentMemory = Math.round((total - free) / total * 100);
-
+  const freeMemory = parseInt(dataFreeMemory.measurements[0].value);
+  const totalMemory = parseInt(dataTotalMemory.measurements[0].value);
+  const percentMemory = Math.round((totalMemory - freeMemory) / totalMemory * 100);
 
   const dataDatabase = stateDatabase.data;
-  const isLoadingDatabase = stateDatabase.isLoading;
-
-  async function getDataDatabase() {
-    const response = await Axios.get(
-      '/actuator/sysinfo/db'
-    ).catch(error => {
-      console.log(error);
-    });
-
-    if(response === undefined){
-      return;
-    }
-
-    if(response.status === 200){
-      return response;
-    }
-  }
-
-  if(isLoadingDatabase){
-    return (<Backdrop/>)
-  }
-
   const dataStorage = stateStorage.data;
-  const isLoadingStorage = stateStorage.isLoading;
 
-  async function getDataStorage() {
+  const disk = stateHdd.data.components.diskSpace.details;
+  const freeHdd = disk.free;
+  const totalHdd = disk.total;
 
-    const params = new URLSearchParams();
-    params.append('dir', "/home/devj/nginx/html");
-    params.append('dir', "/upload/post");
-    params.append('dir', "/upload/temp");
-
-    const response = await Axios.get(
-      '/actuator/sysinfo/storage',
-      {'params': params},      
-    ).catch(error => {
-      console.log(error);
-    });
-
-    if(response === undefined){
-      return;
-    }
-
-    if(response.status === 200){
-      return response;
-    }
-  }
-
-  if(isLoadingStorage){
-    return (<Backdrop/>)
-  }
+  const startupDate = stateStartup.data.measurements[0].value;
 
   return (
     <div className={classes.root}>
@@ -181,15 +111,15 @@ export default function Main() {
         </Grid>
 
         <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
-          <Hdd/>
+          <Hdd total={totalHdd} free={freeHdd} />
         </Grid>
 
         <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
-          <Memory percent={percentMemory} total={total}/>
+          <Memory percent={percentMemory} total={totalMemory}/>
         </Grid>
 
         <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
-          <Startup/>
+          <Startup dateTime={startupDate}/>
         </Grid>
 
       </Grid>
@@ -200,7 +130,7 @@ export default function Main() {
         </Grid>
 
         <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-          <MemoryChart percent={percentMemory} total={total}/>
+          <MemoryChart percent={percentMemory} total={totalMemory}/>
         </Grid>
       </Grid>
 

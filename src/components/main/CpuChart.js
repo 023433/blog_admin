@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -94,3 +95,7 @@ export default function CpuChart(props) {
 
 
 }
+
+CpuChart.propTypes = {
+  percent: PropTypes.number.isRequired
+};
