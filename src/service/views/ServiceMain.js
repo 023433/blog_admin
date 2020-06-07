@@ -130,8 +130,8 @@ const getDataStartup = async () => {
 const getResultSize = (bytes) => {
   var s = ['bytes', 'KB', 'MB', 'GB', 'TB', 'PB'];
   var e = Math.floor(Math.log(bytes)/Math.log(1024));
-
-  if(e === "-Infinity") {
+  
+  if(e === "-Infinity" || bytes === 0) {
     return "0 " + s[0]; 
   } else {
     return (bytes/Math.pow(1024, Math.floor(e))).toFixed(0) + " " + s[e];

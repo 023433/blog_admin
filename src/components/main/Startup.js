@@ -44,7 +44,7 @@ export default function Startup(props) {
   var elapsed = parseInt((now - date) / 1000 / 60 / 60);
 
   return (
-    <Card elevation={0} className={classes.card}>
+    <Card elevation={1} className={classes.card}>
       <CardContent>
         <div className={classes.content} >
           <Typography className={classes.name} variant="h4">

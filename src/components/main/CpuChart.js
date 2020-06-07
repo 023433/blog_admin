@@ -67,7 +67,7 @@ export default function CpuChart(props) {
   let bgColor = theme === PropertyMenu.Light ? "#FFF" : "#BDBDBD";
 
   return (
-    <Card elevation={0} className={classes.card}>
+    <Card elevation={1} className={classes.card}>
       <CardContent>
         <div className={classes.content} >
           <Typography className={classes.name} variant="h4">

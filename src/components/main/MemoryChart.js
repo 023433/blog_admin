@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
+import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -67,7 +68,7 @@ export default function MemoryChart(props) {
   let bgColor = theme === PropertyMenu.Light ? "#FFF" : "#BDBDBD";
 
   return (
-    <Card elevation={0} className={classes.card}>
+    <Card elevation={1} className={classes.card}>
       <CardContent>
         <div className={classes.content} >
           <Typography className={classes.name} variant="h4">
@@ -93,5 +94,8 @@ export default function MemoryChart(props) {
     </Card>
   );
 
-
 }
+
+MemoryChart.propTypes = {
+  percent: PropTypes.number.isRequired
+};

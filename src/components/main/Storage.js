@@ -1,6 +1,7 @@
 import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import { getResultSize } from '../../service/views/ServiceMain';
+import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
@@ -61,7 +62,7 @@ export default function Storage(props) {
   const classes = useStyles();
 
   return (
-    <Card elevation={0} className={classes.card}>
+    <Card elevation={1} className={classes.card}>
       <CardContent>
         <div className={classes.content} >
           <Typography className={classes.name} variant="h4">
@@ -77,15 +78,15 @@ export default function Storage(props) {
             className={classes.root}
           >
             {
-              Object.entries(props.data).map(([key,value])=>{
+              props.data.map(item =>{
                 return (
-                  <ListItem button key={key} >
+                  <ListItem button key={item.name} >
                     <Typography className={classes.typography} variant="h6">
-                      - {key}
+                      - {item.name}
                     </Typography>
                     <div className={classes.flexGrow} />
                     <Typography className={classes.size} variant="subtitle2">
-                      {getResultSize(value)}
+                      {getResultSize(item.size)}
                     </Typography>
                   </ListItem>
                 )
@@ -99,5 +100,14 @@ export default function Storage(props) {
     </Card>
   );
 
-
 }
+
+
+Storage.propTypes = {
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      size: PropTypes.number.isRequired,
+      name: PropTypes.string.isRequired
+    })
+  ).isRequired
+};

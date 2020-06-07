@@ -43,7 +43,7 @@ export default function Hdd(props) {
   let percent = parseInt((total - free) / total * 100);
 
   return (
-    <Card elevation={0} className={classes.card}>
+    <Card elevation={1} className={classes.card}>
       <CardContent>
         <div className={classes.content} >
           <Typography className={classes.name} variant="h4">
