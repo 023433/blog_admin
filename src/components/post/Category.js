@@ -8,7 +8,8 @@ import CheckBoxOutlineBlankIcon from '@material-ui/icons/CheckBoxOutlineBlank';
 import CheckBoxIcon from '@material-ui/icons/CheckBox';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
-
+import SearchIcon from '@material-ui/icons/Search';
+import IconButton from '@material-ui/core/IconButton';
 
 const icon = <CheckBoxOutlineBlankIcon fontSize="small" />;
 const checkedIcon = <CheckBoxIcon fontSize="small" />;
@@ -17,9 +18,24 @@ export default function Category(props) {
 
   const useStyles = makeStyles(theme => ({
     paper: {
+      backgroundColor: theme.palette.content.item.backgroundColor,
+      color: theme.palette.content.item.color,
       padding: `${theme.spacing(1)}px`,
+      display: "flex"
+    },
+    icon: {
+      color: theme.palette.content.item.icon.color,
+    },
+    auto: {
+      width: "100%",
+      display: 'flex',
+      alignItems: "center",
     },
     input: {
+      color: theme.palette.content.item.color,
+      "& ::placeholder": {
+        color: theme.palette.content.item.color,
+      },
       "& .MuiInput-underline:before": {
         borderBottom: "none",
       },
@@ -34,6 +50,7 @@ export default function Category(props) {
   }));
 
   const [no, setNo] = React.useState([]);
+  const [placeholder, setPlaceholder] = React.useState("카테고리를 선택하세요.");
 
   const classes = useStyles();
 
@@ -41,6 +58,7 @@ export default function Category(props) {
     const idx = value.length - 1
 
     if(idx < 0){
+      setPlaceholder("카테고리를 선택하세요.");
       setNo([]);
       return
     }
@@ -52,6 +70,8 @@ export default function Category(props) {
     }else{
       setNo((chips) => chips.concat(value[idx].no));
     }
+
+    setPlaceholder("");
   }
 
     
@@ -78,42 +98,44 @@ export default function Category(props) {
   const category = initCategory(props.data);
 
   return (
-    <React.Fragment>
 
-      <Paper elevation={1} className={classes.paper}>
-        <Autocomplete
-          multiple
-          id="category"
-          size="small"
-          limitTags={3}
-          options={category}
-          disableCloseOnSelect
-          onChange={(event, value) => change(value)}
-          getOptionLabel={(option) => option.title}
-          renderOption={(option, { selected }) => (
-            <React.Fragment>
-              <Checkbox
-                icon={icon}
-                checkedIcon={checkedIcon}
-                style={{ marginRight: 8 }}
-                checked={selected}
-              />
-              {option.title}
-            </React.Fragment>
-          )}
-          renderInput={(params) => 
-            <TextField 
-              {...params} 
-              className={classes.input} 
-              placeholder="카테고리를 선택하세요." />
-          }
-        />
-      </Paper>
+    <Paper elevation={1} className={classes.paper}>
+      <Autocomplete
+        multiple
+        className={classes.auto}
+        id="category"
+        size="small"
+        limitTags={3}
+        options={category}
+        disableCloseOnSelect
+        onChange={(event, value) => change(value)}
+        getOptionLabel={(option) => option.title}
+        renderOption={(option, { selected }) => (
+          <React.Fragment>
+            <Checkbox
+              icon={icon}
+              checkedIcon={checkedIcon}
+              style={{ marginRight: 8 }}
+              checked={selected}
+            />
+            {option.title}
+          </React.Fragment>
+        )}
+        renderInput={(params) => 
+          <TextField 
+            {...params} 
+            className={classes.input} 
+            placeholder={placeholder} />
+        }
+      />
+      <IconButton className={classes.icon}>
+        <SearchIcon/>
+      </IconButton>
       <input
         type="hidden" 
         value={no}
         name="category" />
-    </React.Fragment>
+    </Paper>
   )
 }
 

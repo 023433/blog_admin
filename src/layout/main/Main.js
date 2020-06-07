@@ -23,7 +23,33 @@ export default function Main(props) {
         badge: {
           backgroundColor: "#01579b",
           color: "#ffffff"
-        }
+        },
+        item: {
+          backgroundColor: "#ffffff",
+          color: "#424242",
+          icon: {
+            color: "#424242",
+          }
+        },
+        table: {
+          header: {
+            backgroundColor: "#133a70",
+            color: "#ffffff",
+          },
+          body: {
+            backgroundColor: "#ffffff",
+            color: "#424242",
+          }
+        },
+        paging: {
+          backgroundColor: "#ffffff",
+          color: "#424242",
+          selected: {
+            backgroundColor: "#424242",
+            color: "#bdbdbd",
+            fontWeight: 700,
+          }
+        },
       },
       logo: {
         first: {
@@ -40,7 +66,8 @@ export default function Main(props) {
         },
         badge: {
           backgroundColor: "#01579b",
-          color: "#ffffff"
+          color: "#ffffff",
+          borderColor: "#01579b",
         }
       },
       sidebar: {
@@ -71,7 +98,34 @@ export default function Main(props) {
         badge: {
           backgroundColor: "#2E2E2E",
           color: "#e0e0e0"
-        }
+        },
+        item: {
+          backgroundColor: "#757575",
+          color: "#bdbdbd",
+          icon: {
+            color: "#bdbdbd",
+          }
+        },
+        table: {
+          header: {
+            backgroundColor: "#212121",
+            color: "#bdbdbd",
+          },
+          body: {
+            backgroundColor: "#616161",
+            color: "#bdbdbd",
+            borderColor: "1px solid #424242",
+          }
+        },
+        paging: {
+          backgroundColor: "#424242",
+          color: "#bdbdbd",
+          selected: {
+            backgroundColor: "#212121",
+            color: "#bdbdbd",
+            fontWeight: 700,
+          }
+        },
       },
       logo: {
         first: {

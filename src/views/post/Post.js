@@ -3,7 +3,11 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import Grid from '@material-ui/core/Grid';
 
-import Category from '../../components/category/CategoryPost'
+import Category from '../../components/post/Category'
+import Search from '../../components/post/Search'
+import ButtonGroup from '../../components/post/ButtonGroup'
+import Content from '../../components/post/Content'
+import Pagination from '../../components/post/Pagination'
 
 import { ApiAsync, Axios, Backdrop } from '../../service/api/ApiService';
 
@@ -48,18 +52,31 @@ export default function Post() {
 
   return (
     <div className={classes.root}>
-      <Grid container spacing={2} >
+      <form>
+        <Grid container spacing={2} >
+          <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+            <Category data={data}/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+            <Search title={"data"}/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+            <ButtonGroup/>
+          </Grid>
+        </Grid>
+        
+        <Grid container spacing={2} >
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Content/>
+          </Grid>
+        </Grid>
 
-        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-          <Category data={data}/>
+        <Grid container spacing={2} >
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Pagination/>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-          <Category data={data}/>
-        </Grid>
-        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-          <Category data={data}/>
-        </Grid>
-      </Grid>
+      </form>
       
     </div>
   );
