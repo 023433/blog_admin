@@ -107,6 +107,9 @@ export default function Category(props) {
         size="small"
         limitTags={3}
         options={category}
+        getOptionSelected={(option, value) => {
+          return option.no === value.no;
+        }}
         disableCloseOnSelect
         onChange={(event, value) => change(value)}
         getOptionLabel={(option) => option.title}
@@ -114,6 +117,7 @@ export default function Category(props) {
           <React.Fragment>
             <Checkbox
               icon={icon}
+              color="default"
               checkedIcon={checkedIcon}
               style={{ marginRight: 8 }}
               checked={selected}

@@ -13,8 +13,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 
 import IconButton from '@material-ui/core/IconButton';
 import DeleteIcon from '@material-ui/icons/Delete';
-import LockIcon from '@material-ui/icons/Lock';
-import LockOpenIcon from '@material-ui/icons/LockOpen';
+import ReplyIcon from '@material-ui/icons/Reply';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Grid from '@material-ui/core/Grid';
 
@@ -50,16 +49,16 @@ export default function Content(props) {
 
   const classes = useStyles();
 
-  function createData(no, subject, createDate, wirter) {
-    return { no, subject, createDate, wirter };
+  function createData(no, subject) {
+    return { no, subject};
   }
   
   const rows = [
-    createData(1, "subject1", "createDate1", "wirter1"),
-    createData(2, "subject2", "createDate2", "wirter2"),
-    createData(3, "subject3", "createDate3", "wirter3"),
-    createData(4, "subject4", "createDate4", "wirter4"),
-    createData(5, "subject5", "createDate5", "wirter5"),
+    createData(1, "subject1"),
+    createData(2, "subject2"),
+    createData(3, "subject3"),
+    createData(4, "subject4"),
+    createData(5, "subject5"),
   ];
 
   const HeaderCell = withStyles((theme) => ({
@@ -134,9 +133,7 @@ export default function Content(props) {
                 checked={numberOfChecked(no) === no.length && no.length !== 0}
                 indeterminate={numberOfChecked(no) !== no.length && numberOfChecked(no) !== 0}/>
             </HeaderCell>
-            <HeaderCell style={{width: '60%'}}>제목</HeaderCell>
-            <HeaderCell style={{width: '10%'}}>작성일</HeaderCell>
-            <HeaderCell style={{width: '10%'}}>작성자</HeaderCell>
+            <HeaderCell style={{width: '80%'}}>제목</HeaderCell>
             <HeaderCell style={{width: '15%'}}></HeaderCell>
           </TableRow>
         </TableHead>
@@ -150,10 +147,13 @@ export default function Content(props) {
                   color="default"/>
               </BodyCell>
               <BodyCell>제목</BodyCell>
-              <BodyCell>작성일</BodyCell>
-              <BodyCell>작성자</BodyCell>
               <BodyCell>
                 <Grid container spacing={0} >
+                  <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+                    <IconButton className={classes.button}>
+                      <ReplyIcon className={classes.icon}/>
+                    </IconButton>
+                  </Grid>
                   <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
                     <IconButton className={classes.button}>
                       <SettingsIcon className={classes.icon}/>
@@ -163,19 +163,6 @@ export default function Content(props) {
                     <IconButton className={classes.button}>
                       <DeleteIcon className={classes.icon}/>
                     </IconButton>
-                  </Grid>
-                  <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-                    {
-                      isPublic? 
-                        <IconButton className={classes.button}>
-                          <LockOpenIcon className={classes.icon}/>
-                        </IconButton>
-                        :
-                        <IconButton className={classes.button}>
-                          <LockIcon className={classes.icon}/>
-                        </IconButton>
-                    }
-                  
                   </Grid>
                 </Grid>
               </BodyCell>

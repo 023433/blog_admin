@@ -11,9 +11,7 @@ import Pagination from '../../components/post/Pagination'
 
 import { ApiAsync, Axios, Backdrop } from '../../service/api/ApiService';
 
-
 export default function Post() {
-
   const useStyles = makeStyles(theme => ({
     root: {
       padding: theme.palette.content.padding,

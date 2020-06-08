@@ -45,8 +45,8 @@ export default function Main(props) {
           backgroundColor: "#ffffff",
           color: "#424242",
           selected: {
-            backgroundColor: "#424242",
-            color: "#bdbdbd",
+            backgroundColor: "#e0e0e0",
+            color: "#212121",
             fontWeight: 700,
           }
         },
