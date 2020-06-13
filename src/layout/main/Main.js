@@ -179,6 +179,9 @@ export default function Main(props) {
     content: {
       height: "100%",
       minHeight: "calc(100vh - 64px)",
+      [theme.breakpoints.down('xs')]: {
+        paddingTop: 64,
+      },
     }
   }));
 

@@ -23,14 +23,25 @@ import { Cookie } from '../../service/api/enum/Cookie';
 export default function Header(props) {
 
   const useStyles = makeStyles(theme => ({
+    appbar: {
+      height: "65px",
+      minHeight: "65px",
+      paddingLeft: "0px",
+      paddingRight: "0px",
+      backgroundColor: theme.palette.header.backgroundColor
+    },
+    toolbar: {
+      height: "64px",
+      minHeight: "64px",
+      paddingLeft: "0px",
+      paddingRight: "0px",
+      backgroundColor: theme.palette.header.backgroundColor
+    },
     logoFirst: {
       fill: theme.palette.logo.first.fill
     },
     logoSecond: {
       fill: theme.palette.logo.second.fill
-    },
-    header: {
-      backgroundColor: theme.palette.header.backgroundColor
     },
     icon: {
       color: theme.palette.header.icon.color,
@@ -65,8 +76,8 @@ export default function Header(props) {
   }
   
   return (
-    <AppBar>
-      <Toolbar className={classes.header} >
+    <AppBar className={classes.appbar} >
+      <Toolbar className={classes.toolbar} >
         <div style={{maxWidth:"45px", minHeight:"45px", minWidth:"45px", maxHeight:"45px"}}> 
           <RouterLink to="/">
             <LogoSamll 
