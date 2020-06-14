@@ -18,6 +18,8 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Grid from '@material-ui/core/Grid';
 
+import Timestamp from '../../components/date/Timestamp';
+
 export default function Content(props) {
 
   const useStyles = makeStyles(theme => ({
@@ -49,18 +51,19 @@ export default function Content(props) {
 
 
   const classes = useStyles();
+console.log(props);
 
-  function createData(no, subject, createDate, wirter) {
-    return { no, subject, createDate, wirter };
+
+  function createData(no, subject, createDate, wirter, publish) {
+    return { no, subject, createDate, wirter, publish };
   }
   
-  const rows = [
-    createData(1, "subject1", "createDate1", "wirter1"),
-    createData(2, "subject2", "createDate2", "wirter2"),
-    createData(3, "subject3", "createDate3", "wirter3"),
-    createData(4, "subject4", "createDate4", "wirter4"),
-    createData(5, "subject5", "createDate5", "wirter5"),
-  ];
+  const rows = [];
+
+  props.data.map((val, idx) => {
+    rows.push(createData(val.no, val.subject, val.createDate, val.author, val.publish));
+    return null;
+  })
 
   const HeaderCell = withStyles((theme) => ({
     head: {
@@ -94,7 +97,6 @@ export default function Content(props) {
     return [...a, ...not(b, a)];
   }
   // eslint-disable-next-line
-  const [isPublic, setPublic] = React.useState(true);
   const [checked, setChecked] = React.useState([]);
   const no = rows.map(value => {return value.no});
 
@@ -134,9 +136,9 @@ export default function Content(props) {
                 checked={numberOfChecked(no) === no.length && no.length !== 0}
                 indeterminate={numberOfChecked(no) !== no.length && numberOfChecked(no) !== 0}/>
             </HeaderCell>
-            <HeaderCell style={{width: '60%'}}>제목</HeaderCell>
-            <HeaderCell style={{width: '10%'}}>작성일</HeaderCell>
-            <HeaderCell style={{width: '10%'}}>작성자</HeaderCell>
+            <HeaderCell style={{width: '50%'}}>제목</HeaderCell>
+            <HeaderCell style={{width: '15%', textAlign: "right"}}>작성일</HeaderCell>
+            <HeaderCell style={{width: '15%', textAlign: "center"}}>작성자</HeaderCell>
             <HeaderCell style={{width: '15%'}}></HeaderCell>
           </TableRow>
         </TableHead>
@@ -149,9 +151,11 @@ export default function Content(props) {
                   checked={checked.indexOf(row.no) !== -1} 
                   color="default"/>
               </BodyCell>
-              <BodyCell>제목</BodyCell>
-              <BodyCell>작성일</BodyCell>
-              <BodyCell>작성자</BodyCell>
+              <BodyCell>{row.subject}</BodyCell>
+              <BodyCell style={{textAlign: "right"}}>
+                <Timestamp dateTime={row.createDate} variant="button"/>
+              </BodyCell>
+              <BodyCell style={{textAlign: "center"}}>{row.wirter}</BodyCell>
               <BodyCell>
                 <Grid container spacing={0} >
                   <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
@@ -166,7 +170,7 @@ export default function Content(props) {
                   </Grid>
                   <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
                     {
-                      isPublic? 
+                      row.publish? 
                         <IconButton className={classes.button}>
                           <LockOpenIcon className={classes.icon}/>
                         </IconButton>
@@ -188,5 +192,14 @@ export default function Content(props) {
 }
 
 Content.propTypes = {
-  title: PropTypes.string
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      no: PropTypes.number.isRequired,
+      subject: PropTypes.string.isRequired,
+      createDate: PropTypes.string.isRequired,
+      updateDate: PropTypes.string.isRequired,
+      author: PropTypes.string.isRequired,
+      publish: PropTypes.bool.isRequired
+    })
+  ).isRequired
 }

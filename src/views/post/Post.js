@@ -9,9 +9,13 @@ import ButtonGroup from '../../components/post/ButtonGroup'
 import Content from '../../components/post/Content'
 import Pagination from '../../components/post/Pagination'
 
-import { ApiAsync, Axios, Backdrop } from '../../service/api/ApiService';
+import { ApiAsync, Backdrop } from '../../service/api/ApiService';
+import { useLocation} from "react-router";
+import QueryString from "query-string";
 
-export default function Post() {
+import { getPosts, getCategory } from '../../service/views/ServicePost';
+
+export default function Post(props) {
   const useStyles = makeStyles(theme => ({
     root: {
       padding: theme.palette.content.padding,
@@ -24,28 +28,32 @@ export default function Post() {
 
   const classes = useStyles();
 
-  // eslint-disable-next-line
-  const [state, dispatch] = ApiAsync(getCategory, []);
-  const { isLoading, data } = state;
+  const location = useLocation();
+  const path = location.pathname.replace("/", "");
+  const queryParam = props.location.query;
+  const queryString = QueryString.parse(props.location.search);
 
-  async function getCategory() {
-    const response = await Axios.get(
-      '/categories',
-    ).catch(error => {
-      console.log(error);
-    });
+  let no = 0;
 
-    if(response === undefined){
-      return;
-    }
-
-    if(response.status === 200){
-      return response;
-    }
-  }
+  if(queryParam !== undefined){
+    no = queryParam.page - 1;
+  }  
   
-  if(isLoading){
+  if(queryString !== undefined){
+    no = queryString.page - 1;
+  }  
+
+  const [stateCategory] = ApiAsync(getCategory, []);
+  const [statePost] = ApiAsync(() => getPosts(no), [no]);
+
+  if(stateCategory.isLoading 
+    || statePost.isLoading){
+
     return (<Backdrop/>)
+  }
+
+  if(statePost.data != null){
+    statePost.data.pageable["totalPages"] = statePost.data.totalPages
   }
 
   return (
@@ -53,7 +61,7 @@ export default function Post() {
       <form>
         <Grid container spacing={2} >
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-            <Category data={data}/>
+            <Category data={stateCategory.data}/>
           </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
             <Search title={"data"}/>
@@ -65,13 +73,13 @@ export default function Post() {
         
         <Grid container spacing={2} >
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Content/>
+            <Content data={statePost.data.content}/>
           </Grid>
         </Grid>
 
         <Grid container spacing={2} >
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Pagination/>
+            <Pagination pageable={statePost.data.pageable} path={path}/>
           </Grid>
         </Grid>
       </form>
