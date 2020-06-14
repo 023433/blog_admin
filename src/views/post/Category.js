@@ -22,54 +22,54 @@ export default function ViewCategory() {
   }));
 
   const classes = useStyles();
-// eslint-disable-next-line
-const [state, dispatch] = ApiAsync(getCategory, []);
-const { isLoading, data } = state;
+  // eslint-disable-next-line
+  const [state, dispatch] = ApiAsync(getCategory, []);
+  const { isLoading, data } = state;
 
-async function getCategory() {
-  const response = await Axios.get(
-    '/categories',
-  ).catch(error => {
-    console.log(error);
-  });
+  async function getCategory() {
+    const response = await Axios.get(
+      '/categories',
+    ).catch(error => {
+      console.log(error);
+    });
 
-  if(response === undefined){
-    return;
+    if(response === undefined){
+      return;
+    }
+
+    if(response.status === 200){
+      return response;
+    }
   }
 
-  if(response.status === 200){
-    return response;
+  if(isLoading){
+    return (<Backdrop/>)
   }
-}
 
-if(isLoading){
-  return (<Backdrop/>)
-}
-
-return (
-  <div className={classes.root}>
-    <form>
-      <Grid container spacing={2} >
-        <Grid item xs={12} sm={12} md={5} lg={5} xl={5}>
-          <Add data={data}/>
+  return (
+    <div className={classes.root}>
+      <form>
+        <Grid container spacing={2} >
+          <Grid item xs={12} sm={12} md={5} lg={5} xl={5}>
+            <Add data={data}/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
+            <Search title={"data"}/>
+          </Grid>
+          <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
+            <ButtonGroup/>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-          <Search title={"data"}/>
+        
+        <Grid container spacing={2} >
+          <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
+            <Content data={data}/>
+          </Grid>
         </Grid>
-        <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
-          <ButtonGroup/>
-        </Grid>
-      </Grid>
+      </form>
       
-      <Grid container spacing={2} >
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <Content data={data}/>
-        </Grid>
-      </Grid>
-    </form>
-    
-  </div>
-);
+    </div>
+  );
 }
 
 
