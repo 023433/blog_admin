@@ -61,9 +61,10 @@ export default function Content(props) {
 
     rows.push(createData(val.no, val.title, depth));
 
-    if(val.children != undefined){
+    if(val.children !== undefined){
       pushCreateData(depth, val.children);
     }
+    return null;
   });
 
   function pushCreateData(depth, data){
@@ -71,9 +72,10 @@ export default function Content(props) {
     data.map((val, idx) => {
       rows.push(createData(val.no, val.title, depth));
 
-      if(val.children != undefined){
+      if(val.children !== undefined){
         pushCreateData(depth, val.children);
       }
+      return null;
     });
   }
 
