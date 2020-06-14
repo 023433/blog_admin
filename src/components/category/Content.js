@@ -16,6 +16,7 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import ReplyIcon from '@material-ui/icons/Reply';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Grid from '@material-ui/core/Grid';
+import SubdirectoryArrowRightIcon from '@material-ui/icons/SubdirectoryArrowRight';
 
 export default function Content(props) {
 
@@ -49,17 +50,32 @@ export default function Content(props) {
 
   const classes = useStyles();
 
-  function createData(no, subject) {
-    return { no, subject};
+  function createData(no, subject, depth) {
+    return { no, subject, depth };
   }
   
-  const rows = [
-    createData(1, "subject1"),
-    createData(2, "subject2"),
-    createData(3, "subject3"),
-    createData(4, "subject4"),
-    createData(5, "subject5"),
-  ];
+  const rows = [];
+
+  props.data.map((val, idx) => {
+    let depth = 0;
+
+    rows.push(createData(val.no, val.title, depth));
+
+    if(val.children != undefined){
+      pushCreateData(depth, val.children);
+    }
+  });
+
+  function pushCreateData(depth, data){
+    depth++;
+    data.map((val, idx) => {
+      rows.push(createData(val.no, val.title, depth));
+
+      if(val.children != undefined){
+        pushCreateData(depth, val.children);
+      }
+    });
+  }
 
   const HeaderCell = withStyles((theme) => ({
     head: {
@@ -92,8 +108,7 @@ export default function Content(props) {
   function union(a, b) {
     return [...a, ...not(b, a)];
   }
-  // eslint-disable-next-line
-  const [isPublic, setPublic] = React.useState(true);
+
   const [checked, setChecked] = React.useState([]);
   const no = rows.map(value => {return value.no});
 
@@ -119,6 +134,7 @@ export default function Content(props) {
       setChecked(union(checked, items));
     }
   };
+
   return (
 
     <TableContainer component={Paper}>
@@ -146,7 +162,12 @@ export default function Content(props) {
                   checked={checked.indexOf(row.no) !== -1} 
                   color="default"/>
               </BodyCell>
-              <BodyCell>제목</BodyCell>
+              <BodyCell>
+                {
+                  row.depth > 0 ? subdirectoryArrowRightIcon(row.depth) : null
+                }
+                {row.subject}
+              </BodyCell>
               <BodyCell>
                 <Grid container spacing={0} >
                   <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
@@ -174,6 +195,21 @@ export default function Content(props) {
   )
 }
 
+
+function subdirectoryArrowRightIcon(depth){
+  return (
+    <span 
+      style={{
+        marginLeft: depth*10,
+        display: "inline-flex",
+        verticalAlign: "middle",
+        marginRight: "5px"
+      }}>
+      <SubdirectoryArrowRightIcon style={{fontSize: "15px"}}/>
+    </span>
+  );
+}
+
 Content.propTypes = {
-  title: PropTypes.string
+  data: PropTypes.array.isRequired
 }

@@ -3,11 +3,10 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import Grid from '@material-ui/core/Grid';
 
-import Category from '../../components/category/Add'
+import Add from '../../components/category/Add'
 import Search from '../../components/category/Search'
 import ButtonGroup from '../../components/category/ButtonGroup'
 import Content from '../../components/category/Content'
-import Pagination from '../../components/category/Pagination'
 
 import { ApiAsync, Axios, Backdrop } from '../../service/api/ApiService';
 
@@ -52,7 +51,7 @@ return (
     <form>
       <Grid container spacing={2} >
         <Grid item xs={12} sm={12} md={5} lg={5} xl={5}>
-          <Category data={data}/>
+          <Add data={data}/>
         </Grid>
         <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
           <Search title={"data"}/>
@@ -64,13 +63,7 @@ return (
       
       <Grid container spacing={2} >
         <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <Content/>
-        </Grid>
-      </Grid>
-
-      <Grid container spacing={2} >
-        <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-          <Pagination/>
+          <Content data={data}/>
         </Grid>
       </Grid>
     </form>
