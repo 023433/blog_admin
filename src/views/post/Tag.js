@@ -71,7 +71,6 @@ export default function Tag(props) {
   if(isLoading){
     return (<Backdrop/>)
   }
-console.log(data);
 
   if(data != null){
     data.pageable["totalPages"] = data.totalPages

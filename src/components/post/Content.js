@@ -51,8 +51,6 @@ export default function Content(props) {
 
 
   const classes = useStyles();
-console.log(props);
-
 
   function createData(no, subject, createDate, wirter, publish) {
     return { no, subject, createDate, wirter, publish };
