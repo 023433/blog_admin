@@ -40,9 +40,11 @@ export default function Search(props) {
         placeholder="검색어를 입력하세요."
         fullWidth 
         variant="filled"
+        name="search"
+        defaultValue={props.title}
         />
-      <IconButton className={classes.icon}>
-        <SearchIcon/>
+      <IconButton type="submit" className={classes.icon}>
+        <SearchIcon />
       </IconButton>
     </Paper>
   )

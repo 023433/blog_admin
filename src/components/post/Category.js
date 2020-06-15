@@ -49,8 +49,17 @@ export default function Category(props) {
 
   }));
 
-  const [no, setNo] = React.useState([]);
-  const [placeholder, setPlaceholder] = React.useState("카테고리를 선택하세요.");
+  let selected = [];
+  let holder = "";
+
+  if(props.selected !== undefined && props.selected !== ""){
+    selected = props.selected.split(",");
+  }else{
+    holder = "카테고리를 선택하세요.";
+  }
+
+  const [no, setNo] = React.useState(selected);
+  const [placeholder, setPlaceholder] = React.useState(holder);
 
   const classes = useStyles();
 
@@ -111,6 +120,11 @@ export default function Category(props) {
           return option.no === value.no;
         }}
         disableCloseOnSelect
+        defaultValue={() => {
+          return no.map((val) => {
+            return category.filter(cate => cate.no === parseInt(val))[0];
+          })
+        }}
         onChange={(event, value) => change(value)}
         getOptionLabel={(option) => option.title}
         renderOption={(option, { selected }) => (
@@ -132,7 +146,7 @@ export default function Category(props) {
             placeholder={placeholder} />
         }
       />
-      <IconButton className={classes.icon}>
+      <IconButton className={classes.icon} type="submit">
         <SearchIcon/>
       </IconButton>
       <input
@@ -149,5 +163,6 @@ Category.propTypes = {
       no: PropTypes.number.isRequired,
       title: PropTypes.string.isRequired
     })
-  ).isRequired
+  ).isRequired,
+  selected: PropTypes.string
 }

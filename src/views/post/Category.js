@@ -2,15 +2,17 @@ import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import Grid from '@material-ui/core/Grid';
+import QueryString from "query-string";
 
 import Add from '../../components/category/Add'
 import Search from '../../components/category/Search'
 import ButtonGroup from '../../components/category/ButtonGroup'
 import Content from '../../components/category/Content'
 
-import { ApiAsync, Axios, Backdrop } from '../../service/api/ApiService';
+import { ApiAsync, Backdrop } from '../../service/api/ApiService';
+import { getCategory } from '../../service/views/ServiceCategory';
 
-export default function ViewCategory() {
+export default function ViewCategory(props) {
   const useStyles = makeStyles(theme => ({
     root: {
       padding: theme.palette.content.padding,
@@ -21,26 +23,19 @@ export default function ViewCategory() {
     },
   }));
 
+  const queryString = QueryString.parse(props.location.search);
+
+  let search = "";
+
+  if(queryString !== undefined){
+    search = queryString.search;
+  }  
+
   const classes = useStyles();
-  // eslint-disable-next-line
-  const [state, dispatch] = ApiAsync(getCategory, []);
+
+  const [state] = ApiAsync(() => getCategory(search), [search]);
   const { isLoading, data } = state;
 
-  async function getCategory() {
-    const response = await Axios.get(
-      '/categories',
-    ).catch(error => {
-      console.log(error);
-    });
-
-    if(response === undefined){
-      return;
-    }
-
-    if(response.status === 200){
-      return response;
-    }
-  }
 
   if(isLoading){
     return (<Backdrop/>)
@@ -54,7 +49,7 @@ export default function ViewCategory() {
             <Add data={data}/>
           </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-            <Search title={"data"}/>
+            <Search title={search}/>
           </Grid>
           <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
             <ButtonGroup/>

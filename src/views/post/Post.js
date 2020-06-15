@@ -34,6 +34,8 @@ export default function Post(props) {
   const queryString = QueryString.parse(props.location.search);
 
   let no = 0;
+  let search = "";
+  let category = "";
 
   if(queryParam !== undefined){
     no = queryParam.page - 1;
@@ -41,6 +43,8 @@ export default function Post(props) {
   
   if(queryString !== undefined){
     no = queryString.page - 1;
+    search = queryString.search;
+    category = queryString.category;
   }  
 
   const [stateCategory] = ApiAsync(getCategory, []);
@@ -56,15 +60,17 @@ export default function Post(props) {
     statePost.data.pageable["totalPages"] = statePost.data.totalPages
   }
 
+  delete queryString["page"];
+
   return (
     <div className={classes.root}>
       <form>
         <Grid container spacing={2} >
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-            <Category data={stateCategory.data}/>
+            <Category data={stateCategory.data} selected={category}/>
           </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-            <Search title={"data"}/>
+            <Search title={search}/>
           </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
             <ButtonGroup/>
@@ -79,7 +85,7 @@ export default function Post(props) {
 
         <Grid container spacing={2} >
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Pagination pageable={statePost.data.pageable} path={path}/>
+            <Pagination pageable={statePost.data.pageable} path={path} search={queryString}/>
           </Grid>
         </Grid>
       </form>

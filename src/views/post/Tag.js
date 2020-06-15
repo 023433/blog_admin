@@ -9,8 +9,10 @@ import ButtonGroup from '../../components/tag/ButtonGroup'
 import Content from '../../components/tag/Content'
 import Pagination from '../../components/tag/Pagination'
 import { useLocation} from "react-router";
-import { ApiAsync, Axios, Backdrop } from '../../service/api/ApiService';
+import { ApiAsync, Backdrop } from '../../service/api/ApiService';
 import QueryString from "query-string";
+
+import { getTags } from '../../service/views/ServiceTag';
 
 export default function Tag(props) {
   const useStyles = makeStyles(theme => ({
@@ -25,13 +27,13 @@ export default function Tag(props) {
 
   const classes = useStyles();
 
-
   const location = useLocation();
   const path = location.pathname.replace("/", "");
   const queryParam = props.location.query;
   const queryString = QueryString.parse(props.location.search);
 
   let no = 0;
+  let search = "";
 
   if(queryParam !== undefined){
     no = queryParam.page - 1;
@@ -39,34 +41,11 @@ export default function Tag(props) {
   
   if(queryString !== undefined){
     no = queryString.page - 1;
+    search = queryString.search;
   }  
 
-  // eslint-disable-next-line
-  const [state, dispatch] = ApiAsync(() => getTags(no), [no]);
+  const [state] = ApiAsync(() => getTags(no, search), [no, search]);
   const { isLoading, data } = state;
-
-  async function getTags(no) {
-    let data = {}
-
-    if(no !== undefined && no !== "NaN" && no > 0){
-      data.pageNo = no
-    }
-
-    const response = await Axios.get(
-      '/admin/tags',
-      {params: data}
-    ).catch(error => {
-      console.log(error);
-    });
-
-    if(response === undefined){
-      return;
-    }
-
-    if(response.status === 200){
-      return response;
-    }
-  }
 
   if(isLoading){
     return (<Backdrop/>)
@@ -76,7 +55,7 @@ export default function Tag(props) {
     data.pageable["totalPages"] = data.totalPages
   }
 
-
+  delete queryString["page"];
 
   return (
     <div className={classes.root}>
@@ -86,7 +65,7 @@ export default function Tag(props) {
             <Add/>
           </Grid>
           <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-            <Search title={"data"}/>
+            <Search title={search}/>
           </Grid>
           <Grid item xs={12} sm={12} md={3} lg={3} xl={3}>
             <ButtonGroup/>
@@ -101,7 +80,7 @@ export default function Tag(props) {
 
         <Grid container spacing={2} >
           <Grid item xs={12} sm={12} md={12} lg={12} xl={12}>
-            <Pagination pageable={data.pageable} path={path}/>
+            <Pagination pageable={data.pageable} path={path} search={queryString}/>
           </Grid>
         </Grid>
       </form>
