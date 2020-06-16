@@ -1,16 +1,16 @@
 import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import PropTypes from 'prop-types';
-import { getResultSize } from '../../service/views/ServiceMain';
 
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import Avatar from '@material-ui/core/Avatar';
-import StorageIcon from '@material-ui/icons/Storage';
+import FlipCameraAndroidIcon from '@material-ui/icons/FlipCameraAndroid';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Timestamp from '../../../components/date/Timestamp';
 
-export default function Hdd(props) {
+export default function Startup(props) {
 
   const useStyles = makeStyles(theme => ({
     content: {
@@ -37,37 +37,37 @@ export default function Hdd(props) {
 
   const classes = useStyles();
 
-  const total = props.total;
-  const free = props.free;
+  const date = props.dateTime;
 
-  let percent = parseInt((total - free) / total * 100);
+  var now = new Date().getTime();
+  
+  var elapsed = parseInt((now - date) / 1000 / 60 / 60);
 
   return (
     <Card elevation={1} className={classes.card}>
       <CardContent>
         <div className={classes.content} >
           <Typography className={classes.name} variant="h4">
-            HDD
+            STARTUP
           </Typography>
           <Avatar aria-label="recipe" className={classes.avater}>
-            <StorageIcon/>
+            <FlipCameraAndroidIcon/>
           </Avatar>
         </div>
         <div className={classes.content} >
           <Typography className={classes.percent} variant="h6">
-            {percent}%
+            {elapsed}H
           </Typography>
           <Typography className={classes.percent} variant="button">
-            {getResultSize(total)}
+            <Timestamp className={classes.percent} dateTime={date} variant="button"/>
           </Typography>
         </div>
-        <LinearProgress variant="determinate" value={percent} />
+        <LinearProgress variant="determinate" value={100} />
       </CardContent>
     </Card>
   );
 }
 
-Hdd.propTypes = {
-  total: PropTypes.number.isRequired,
-  free: PropTypes.number.isRequired
+Startup.propTypes = {
+  dateTime: PropTypes.number.isRequired
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
-import { getResultSize } from '../../service/views/ServiceMain';
+import { getResultSize } from '../../../service/views/ServiceMain';
 import PropTypes from 'prop-types';
 
 import Card from '@material-ui/core/Card';

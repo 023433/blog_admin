@@ -1,15 +1,18 @@
 import React from 'react';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
-
-import Search from '../../components/tag/Search'
-import ButtonGroup from '../../components/tag/ButtonGroup'
-import Content from '../../components/tag/Content'
-import Pagination from '../../components/tag/Pagination'
 import { useLocation} from "react-router";
-import { ApiAsync, Backdrop } from '../../service/api/ApiService';
 import QueryString from "query-string";
+
+import Search from '../../components/search/Search'
+import Pagination from '../../components/pagination/Pagination'
+import Detail from '../../components/views/user/Detail'
+import Form from '../../components/views/user/Form'
+
+import { ApiAsync, Backdrop } from '../../service/api/ApiService';
 import { getUsers } from '../../service/views/ServiceUser';
+
+import Button from '@material-ui/core/Button';
 
 export default function User(props) {
   const useStyles = makeStyles(theme => ({
@@ -22,6 +25,20 @@ export default function User(props) {
     container: {
       display: 'grid',
       gridGap: theme.spacing(1),
+    },
+    paper: {
+      display: "flex",
+      alignItems: "center",
+      height: "100%",
+    },
+    button: {
+      width: "100%",
+      height: "100%",
+      backgroundColor: theme.palette.content.item.backgroundColor,
+      color: theme.palette.content.item.icon.color,
+      display: 'flex',
+      alignItems: "center",
+      justifyContent: "center",
     },
   }));
 
@@ -73,13 +90,20 @@ export default function User(props) {
                 <Search title={search}/>
               </Grid>
               <Grid item xs={12} sm={12} md={4} lg={4} xl={4}>
-                <ButtonGroup/>
+                <div className={classes.paper}>
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                  >
+                    추가
+                  </Button>
+                </div>
               </Grid>
             </Grid>
             
             <Grid container spacing={2}>
               <Grid item xs={12}>
-                <Content data={data.content}/>
+                <Detail data={data.content}/>
               </Grid>
               <Grid item xs={12}>
                 <Pagination pageable={data.pageable} path={path} search={queryString}/>
@@ -98,16 +122,34 @@ export default function User(props) {
             item xs={12} sm={12} md={5} lg={5} xl={5}>
 
             <Grid item xs={12}>
-              <Content data={data.content}/>
+              <Form data={data.content}/>
             </Grid>
             <Grid container spacing={2}>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <Search title={search}/>
+                <div className={classes.paper}>
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                  >
+                    저장
+                  </Button>
+                </div>
               </Grid>
               <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <ButtonGroup/>
+                
+                <div className={classes.paper}>
+                  <Button
+                    variant="contained"
+                    className={classes.button}
+                  >
+                    삭제
+                  </Button>
+                </div>
               </Grid>
             </Grid>
+
+            <Grid item xs={12}></Grid>
+
           </Grid>
    
         </Grid>

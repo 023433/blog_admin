@@ -14,15 +14,15 @@ import {
   getHddData 
 } from '../service/views/ServiceMain';
 
-import Cpu from '../components/main/Cpu';
-import Hdd from '../components/main/Hdd';
-import Memory from '../components/main/Memory';
-import Startup from '../components/main/Startup';
+import Cpu from '../components/views/main/Cpu';
+import Hdd from '../components/views/main/Hdd';
+import Memory from '../components/views/main/Memory';
+import Startup from '../components/views/main/Startup';
 
-import CpuChart from '../components/main/CpuChart';
-import MemoryChart from '../components/main/MemoryChart';
-import Database from '../components/main/Database';
-import Storage from '../components/main/Storage';
+import CpuChart from '../components/views/main/CpuChart';
+import MemoryChart from '../components/views/main/MemoryChart';
+import Database from '../components/views/main/Database';
+import Storage from '../components/views/main/Storage';
 
 
 export default function Main() {

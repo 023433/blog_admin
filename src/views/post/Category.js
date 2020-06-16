@@ -4,10 +4,10 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 import Grid from '@material-ui/core/Grid';
 import QueryString from "query-string";
 
-import Add from '../../components/category/Add'
-import Search from '../../components/category/Search'
-import ButtonGroup from '../../components/category/ButtonGroup'
-import Content from '../../components/category/Content'
+import Add from '../../components/views/category/Add'
+import Search from '../../components/search/Search'
+import ButtonGroup from '../../components/views/category/ButtonGroup'
+import Content from '../../components/views/category/Content'
 
 import { ApiAsync, Backdrop } from '../../service/api/ApiService';
 import { getCategory } from '../../service/views/ServiceCategory';

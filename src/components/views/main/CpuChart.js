@@ -7,15 +7,15 @@ import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 
 import Chart from "react-google-charts";
-import MenuContext from "../../context/MenuContext";
-import { PropertyMenu } from '../../context/PropertyMenu';
+import MenuContext from "../../../context/MenuContext";
+import { PropertyMenu } from '../../../context/PropertyMenu';
 
-export default function MemoryChart(props) {
+export default function CpuChart(props) {
 
   const { theme } = useContext(MenuContext);
 
   // eslint-disable-next-line
-  const [memory, setMemory] = useState([["Time", "Percent"]]);
+  const [cpu, setCpu] = useState([["Time", "Percent"]]);
 
   const useStyles = makeStyles(theme => ({
     content: {
@@ -39,7 +39,7 @@ export default function MemoryChart(props) {
 
   const classes = useStyles();
 
-  memory.push([getTime(), props.percent])
+  cpu.push([getTime(), props.percent])
 
 
   function getTime(){
@@ -64,7 +64,6 @@ export default function MemoryChart(props) {
     return `${hours}:${minutes}:${seconds}`
   }
 
-
   let bgColor = theme === PropertyMenu.Light ? "#FFF" : "#BDBDBD";
 
   return (
@@ -72,7 +71,7 @@ export default function MemoryChart(props) {
       <CardContent>
         <div className={classes.content} >
           <Typography className={classes.name} variant="h4">
-            Memory 사용량
+            CPU 사용량
           </Typography>
         </div>
         <div className={classes.chart} >
@@ -80,7 +79,7 @@ export default function MemoryChart(props) {
             width={'100%'}
             height={'300px'}
             chartType="AreaChart"
-            data={memory}
+            data={cpu}
             options={{
               legend: 'none',
               vAxis: { minValue: 0, maxValue: 100 },
@@ -94,8 +93,9 @@ export default function MemoryChart(props) {
     </Card>
   );
 
+
 }
 
-MemoryChart.propTypes = {
+CpuChart.propTypes = {
   percent: PropTypes.number.isRequired
 };

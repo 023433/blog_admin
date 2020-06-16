@@ -3,11 +3,11 @@ import makeStyles from '@material-ui/core/styles/makeStyles';
 
 import Grid from '@material-ui/core/Grid';
 
-import Add from '../../components/tag/Add'
-import Search from '../../components/tag/Search'
-import ButtonGroup from '../../components/tag/ButtonGroup'
-import Content from '../../components/tag/Content'
-import Pagination from '../../components/tag/Pagination'
+import Add from '../../components/views/tag/Add'
+import Search from '../../components/search/Search'
+import ButtonGroup from '../../components/views/tag/ButtonGroup'
+import Content from '../../components/views/tag/Content'
+import Pagination from '../../components/pagination/Pagination'
 import { useLocation} from "react-router";
 import { ApiAsync, Backdrop } from '../../service/api/ApiService';
 import QueryString from "query-string";

@@ -18,7 +18,7 @@ import LockOpenIcon from '@material-ui/icons/LockOpen';
 import SettingsIcon from '@material-ui/icons/Settings';
 import Grid from '@material-ui/core/Grid';
 
-import Timestamp from '../../components/date/Timestamp';
+import Timestamp from '../../../components/date/Timestamp';
 
 export default function Content(props) {
 
