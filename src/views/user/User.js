@@ -40,6 +40,9 @@ export default function User(props) {
       alignItems: "center",
       justifyContent: "center",
     },
+    buttonGroup: {
+      marginTop: theme.spacing(1),
+    },
   }));
 
   const classes = useStyles();
@@ -123,32 +126,30 @@ export default function User(props) {
 
             <Grid item xs={12}>
               <Form data={data.content}/>
-            </Grid>
-            <Grid container spacing={2}>
-              <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                <div className={classes.paper}>
-                  <Button
-                    variant="contained"
-                    className={classes.button}
-                  >
-                    저장
-                  </Button>
-                </div>
+              <Grid container spacing={2} className={classes.buttonGroup}>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  <div className={classes.paper}>
+                    <Button
+                      variant="contained"
+                      className={classes.button}
+                    >
+                      저장
+                    </Button>
+                  </div>
+                </Grid>
+                <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
+                  
+                  <div className={classes.paper}>
+                    <Button
+                      variant="contained"
+                      className={classes.button}
+                    >
+                      삭제
+                    </Button>
+                  </div>
+                </Grid>
               </Grid>
-              <Grid item xs={12} sm={12} md={6} lg={6} xl={6}>
-                
-                <div className={classes.paper}>
-                  <Button
-                    variant="contained"
-                    className={classes.button}
-                  >
-                    삭제
-                  </Button>
-                </div>
-              </Grid>
             </Grid>
-
-            <Grid item xs={12}></Grid>
 
           </Grid>
    

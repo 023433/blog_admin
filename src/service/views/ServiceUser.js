@@ -12,7 +12,7 @@ async function getUsers(no, search) {
   }
   
   const response = await Axios.get(
-    '/admin/tags',
+    '/admin/users',
     {params: data}
   ).catch(error => {
     console.log(error);
