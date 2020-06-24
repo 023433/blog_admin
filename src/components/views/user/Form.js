@@ -124,7 +124,9 @@ export default function Form(props) {
     }
 
     data.map((rule) => {
-      res.push({"no": rule.no, "title": rule.title});
+      // res.push({"no": rule.no, "title": rule.title});
+      res.push({"no": res.length, "title": rule.userId});
+
       return null;
     });
 
@@ -132,6 +134,7 @@ export default function Form(props) {
   }
 
   const rules = initRules(props.data);
+
   return (
 
     <Card component={Paper} elevation={0} className={classes.root}>

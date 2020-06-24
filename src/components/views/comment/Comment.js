@@ -10,12 +10,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 
-import PanoramaFishEyeIcon from '@material-ui/icons/PanoramaFishEye';
-import ClearIcon from '@material-ui/icons/Clear';
-
-import Avatar from '@material-ui/core/Avatar';
-
-export default function Detail(props) {
+export default function Comment(props) {
 
   const useStyles = makeStyles(theme => ({    
     root: {
@@ -35,14 +30,14 @@ export default function Detail(props) {
 
   const classes = useStyles();
 
-  function createData(userId, userName, activate) {
-    return { userId, userName, activate };
+  function createData(no, subject) {
+    return { no, subject };
   }
   
   const rows = [];
 
   props.data.map((val, idx) => {
-    rows.push(createData(val.userId, val.userName, val.activate));
+    rows.push(createData(val.no, val.subject));
 
     return null;
   });
@@ -64,31 +59,18 @@ export default function Detail(props) {
       <Table aria-label="simple table">
         <TableHead>
           <TableRow>
-            <HeaderCell style={{width: '10%', textAlign: "center"}}>#</HeaderCell>
-            <HeaderCell style={{width: '30%'}}>이름</HeaderCell>
-            <HeaderCell style={{width: '45%'}}>아이디</HeaderCell>
-            <HeaderCell style={{width: '15%'}}>상태</HeaderCell>
+            <HeaderCell style={{width: '10%', textAlign: "center"}}>No</HeaderCell>
+            <HeaderCell style={{width: '90%'}}>제목</HeaderCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((row) => (
-            <TableRow key={row.userId} hover className={classes.row}>
-              <TableCell>
-                <Avatar
-                  alt="Person"
-                  className={classes.avatar}
-                />
+            <TableRow key={row.no} hover className={classes.row}>
+              <TableCell style={{textAlign: "center"}}>
+                {row.no}
               </TableCell>
               <TableCell>
-                {row.userName}
-              </TableCell>
-              <TableCell>
-                {row.userId}
-              </TableCell>
-              <TableCell>
-                {
-                  row.activate? <PanoramaFishEyeIcon/>: <ClearIcon/>
-                }
+                {row.subject}
               </TableCell>
             </TableRow>
           ))}
@@ -98,6 +80,6 @@ export default function Detail(props) {
   )
 }
 
-Detail.propTypes = {
+Comment.propTypes = {
   data: PropTypes.array.isRequired
 }

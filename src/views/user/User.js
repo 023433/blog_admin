@@ -23,8 +23,7 @@ export default function User(props) {
       color: theme.palette.content.color,
     },
     container: {
-      display: 'grid',
-      gridGap: theme.spacing(1),
+      marginTop: theme.spacing(1),
     },
     paper: {
       display: "flex",
@@ -83,7 +82,6 @@ export default function User(props) {
         <Grid container direction="row" spacing={2} >
 
           <Grid 
-            className={classes.container}
             container 
             direction="column" 
             item xs={12} sm={12} md={7} lg={7} xl={7}>
@@ -104,7 +102,8 @@ export default function User(props) {
               </Grid>
             </Grid>
             
-            <Grid container spacing={2}>
+            
+            <Grid className={classes.container} container spacing={2}>
               <Grid item xs={12}>
                 <Detail data={data.content}/>
               </Grid>
@@ -121,7 +120,6 @@ export default function User(props) {
             direction="row"
             justify="flex-start"
             alignItems="flex-start" 
-            className={classes.container}
             item xs={12} sm={12} md={5} lg={5} xl={5}>
 
             <Grid item xs={12}>
